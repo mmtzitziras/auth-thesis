@@ -9,3 +9,11 @@
 body{
   background-color: var(--light-bez);
 }
+
+.main-body{
+  padding: 2rem;
+  background-color: var(--medium-blue);
+  display: flex;
+  flex-wrap: wrap;
+  height: 80vh;
+}
