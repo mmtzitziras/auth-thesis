@@ -3,7 +3,7 @@ import './VideoCall.css'
 import React, {useRef, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom/client'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
+
 
 
 export default function VideoCall(){
@@ -25,13 +25,31 @@ export default function VideoCall(){
 
     }
 
+    const stopVideo = () => {
+        const video = videoRef.current;
+        const stream = video.srcObject;
+        if (stream) {
+            stream.getTracks().forEach(track => {
+                track.stop();
+            });
+            video.srcObject = null;
+        }
+    }
+
+
     useEffect(() => {
         getVideo();
     }, [videoRef])
 
+
+   
+   
+
     return (
         <div className="video-call">
             <video ref={videoRef}></video>
+            <button onClick={stopVideo}>STOP</button>
+            <button onClick={getVideo}>START</button>
         </div>
     );
 }
