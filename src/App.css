@@ -7,7 +7,7 @@
 }
 
 body{
-  background-color: var(--light-bez);
+  background: linear-gradient(0.25turn, var(--medium-blue), var(--grey));
 }
 
 .main-body{
