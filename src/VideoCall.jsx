@@ -48,8 +48,11 @@ export default function VideoCall(){
     return (
         <div className="video-call">
             <video ref={videoRef}></video>
-            <button onClick={stopVideo}>STOP</button>
-            <button onClick={getVideo}>START</button>
+            <div className="controls">
+                <button onClick={stopVideo}>STOP</button>
+                <button onClick={getVideo}>START</button>
+            </div>
+            
         </div>
     );
 }

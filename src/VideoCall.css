@@ -13,6 +13,7 @@
 }
 
 .video-call{
+  position: relative;
     width: 70%;
     background-color: var(--light-bez);
     margin: 20px;
@@ -21,6 +22,7 @@
     box-shadow: 0px 5px 10px grey;
     flex-shrink: 1;
     min-width: 200px;
+    /* overflow: hidden; */
 }
 
 .video-call > video {
@@ -28,12 +30,22 @@
   height: 100%;
   object-fit: cover;
 
+
 }
 
-@media (max-width: 970px) {
+.controls {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.controls button {
+  margin-right: 5px;
+}
+
+@media (max-width: 750px) {
   .video-call {
     width: 100%;
-    min-width: 300px;
   }
 }
 

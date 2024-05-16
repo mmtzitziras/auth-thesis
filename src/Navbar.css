@@ -62,3 +62,9 @@
     top: -0.5rem;
     right: -0.5rem;
   }
+
+  @media screen and (max-width: 768px) {
+    .navbar-center {
+        display: none; /* Hide the navbar center contents */
+    }
+  }

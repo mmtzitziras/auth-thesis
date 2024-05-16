@@ -19,7 +19,7 @@ export default function Chat(){
       const newMessage = {
         id: messages.length + 1,
         text: inputText,
-        sender: 'User',
+        sender: 'Marios Tzitziras',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',hour12: false }),
       };
       setMessages([...messages, newMessage]);
@@ -35,7 +35,7 @@ export default function Chat(){
             {messages.map((message) => (
             <div key={message.id} className={message.sender === 'User' ? 'user-message' : 'other-message'}>
                 <div className='message-text'>{message.text}</div>
-                <div className="timestamp">{message.timestamp}</div>
+                <div className="timestamp">{message.timestamp}  {message.sender}</div>
             </div>
             ))}
         </div>
