@@ -31,8 +31,8 @@
   border-radius: 10px;
 }
 
-.messages > div {
-  background-color: var(--medium-blue);
+.messages > div  {
+  background-color: var(--main-color);
   width: fit-content;
   max-width: 90%;
   min-width: 10ch;
@@ -46,12 +46,12 @@
 
 .message-text{
   text-decoration: none;
-  font-size: 1.1em;
+  font-size: calc(.7rem + .2vw + .2vh);
   color: white;
   text-align: start;
 }
 .timestamp{
-  font-size: .8em;
+  font-size: calc(.5rem + .2vw + .2vh);
   color: var(--light-bez);
   margin-top: .8em;
 }

@@ -4,6 +4,11 @@
   --grey: #8697c4;
   --light-grey: #adbbda;
   --light-bez: #ede8f5;
+
+  --dark-backround: #003C43;
+  --main-color: #135D66;
+  --light-color: #77B0AA;
+  --very-light-color: #E3FEF7;
 }
 
 *,
@@ -20,10 +25,19 @@
 
 div:has(.sign-up-container),
 div:has(.sign-in-container){
-  background-color: #080710;
+
+    background-color: var(--dark-backround);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* position: relative; */
+    overflow: auto;
 }
 
 div:has(.meeting-container){
-  background-color: var(--light-bez);
+  background-color: var(--very-light-color);
+  overflow: auto;
 }
 

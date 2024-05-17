@@ -1,11 +1,10 @@
 
 .background{
-    width: 430px;
-    height: 520px;
+    width: 100%;
+    height: 100%;
     position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
+    top: 0;
+    left: 0;
 }
 .background .shape{
     height: 200px;
@@ -15,20 +14,20 @@
 }
 .shape:first-child{
     background: linear-gradient(
-    var(--blue),
-    var(--medium-blue)
+    var(--main-color),
+    var(--light-color)
     );
-    left: -80px;
-    top: -80px;
+    left: 80px;
+    top: 80px;
 }
 .shape:last-child{
     background: linear-gradient(
         to right,
-        var(--grey),
-        var(--light-grey)
+        var(--light-color),
+        var(--very-light-color)
     );
-    right: -30px;
-    bottom: -80px;
+    right: 30px;
+    bottom: 80px;
 }
 .sign-form{
     height: auto;
@@ -43,19 +42,24 @@
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 @media (max-width: 600px) {
     .sign-form {
-      width: 95%;
+        width: 95%;
     }
 
+    
+}
+
+@media (max-width: 1100px) {
     .background{
-        width: auto;
-        height: auto;
         visibility: hidden;
     }
-  }
+}
 .sign-form *{
     font-family: 'Poppins',sans-serif;
     color: #ffffff;
@@ -63,6 +67,8 @@
     outline: none;
     border: none;
 }
+
+
 .sign-form h3{
     font-size: 32px;
     font-weight: 500;
@@ -110,7 +116,7 @@ label{
 
 .sign-in-btn:hover,
 .sign-in-btn:focus{
-  box-shadow: inset 0 0 0 2em var(--medium-blue);
+  box-shadow: inset 0 0 0 2em var(--light-color);
 }
 .social{
     margin-top: 30px;
@@ -155,7 +161,7 @@ label{
 
 .register:hover,
 .register:focus {
-  box-shadow: inset 0 0 0 2em var(--medium-blue);
+  box-shadow: inset 0 0 0 2em var(--light-color);
 }
 
 .already{
