@@ -1,18 +1,16 @@
 .video-call{
   position: relative;
-    /* width: 70%; */
+   
     background-color: var(--very-light-color);
     margin: 20px;
-    border: white 10px solid;
     border-radius: 10px;
-    box-shadow: 0px 5px 10px grey;
     flex-shrink: 1;
     min-width: 200px;
     /* overflow: hidden; */
     width: 70%;
     max-width: 1920px;
     aspect-ratio: 16 / 9; /* This maintains a 16:9 aspect ratio */
-    background-color: black; /* Optional: makes the video container visible when the stream is stopped */
+    background-color: var(--dark-backround); /* Optional: makes the video container visible when the stream is stopped */
     display: block;
     
 }

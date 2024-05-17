@@ -1,14 +1,9 @@
 :root {
-  --blue: #3d52a0;
-  --medium-blue: #7091e6;
-  --grey: #8697c4;
-  --light-grey: #adbbda;
-  --light-bez: #ede8f5;
-
-  --dark-backround: #003C43;
-  --main-color: #135D66;
-  --light-color: #77B0AA;
-  --very-light-color: #E3FEF7;
+  
+  --secondary-color: #a37cf0;
+  --dark-backround: #121212;
+  --very-dark-backround: black;
+  --main-color: #5f43b2;
 }
 
 *,
@@ -21,6 +16,7 @@
 
 .app{
   height: 100vh;
+ 
 }
 
 div:has(.sign-up-container),
@@ -32,12 +28,12 @@ div:has(.sign-in-container){
     align-items: center;
     width: 100vw;
     height: 100vh;
-    /* position: relative; */
+    position: relative;
     overflow: auto;
 }
 
 div:has(.meeting-container){
-  background-color: var(--very-light-color);
+  background-color: black;
   overflow: auto;
 }
 

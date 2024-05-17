@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--main-color);
+    background-color: var(--dark-backround);
     color: #fff;
     padding: 1rem;
     /* border-bottom: #fff solid 2px; */

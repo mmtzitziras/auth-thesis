@@ -15,7 +15,7 @@
 .shape:first-child{
     background: linear-gradient(
     var(--main-color),
-    var(--light-color)
+    var(--secondary-color)
     );
     left: 80px;
     top: 80px;
@@ -23,8 +23,8 @@
 .shape:last-child{
     background: linear-gradient(
         to right,
-        var(--light-color),
-        var(--very-light-color)
+        var(--secondary-color),
+        var(--main-color)
     );
     right: 30px;
     bottom: 80px;
@@ -116,7 +116,7 @@ label{
 
 .sign-in-btn:hover,
 .sign-in-btn:focus{
-  box-shadow: inset 0 0 0 2em var(--light-color);
+  box-shadow: inset 0 0 0 2em var(--main-color);
 }
 .social{
     margin-top: 30px;
@@ -161,7 +161,7 @@ label{
 
 .register:hover,
 .register:focus {
-  box-shadow: inset 0 0 0 2em var(--light-color);
+  box-shadow: inset 0 0 0 2em var(--main-color);
 }
 
 .already{

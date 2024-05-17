@@ -1,6 +1,7 @@
 .main-body{
     padding: 2rem;
     display: flex;
+    max-height: 80vh;
    }
   
   @media (max-width: 750px) {
