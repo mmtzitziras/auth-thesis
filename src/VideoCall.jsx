@@ -2,7 +2,8 @@
 import './VideoCall.css'
 import React, {useRef, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom/client'
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import playButton from './assets/play-circle.svg'
+import stopButton from './assets/stop-circle.svg'
 
 
 
@@ -49,8 +50,8 @@ export default function VideoCall(){
         <div className="video-call">
             <video ref={videoRef}></video>
             <div className="controls">
-                <button onClick={stopVideo}>STOP</button>
-                <button onClick={getVideo}>START</button>
+                <button onClick={stopVideo}><img src={stopButton} alt="stopButton" /></button>
+                <button onClick={getVideo}><img src={playButton} alt="playButton" /></button>
             </div>
             
         </div>
