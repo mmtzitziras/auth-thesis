@@ -1,26 +1,26 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import './App.css'
+import './Meeting.css'
+import './Sign.css'
 import SignIn from './SignIn.jsx'
-import NavBar from './Navbar.jsx'
-import Chat from './Chat.jsx'
-import VideoCall from './VideoCall.jsx'
+import SignUp from './SignUp.jsx'
+import Meeting from './Meeting.jsx'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
     <>
-      {/* <div className="nav-bar">
-        <NavBar/>
+      <div className="app">
+        <Router>
+          <Routes>
+            <Route path='/' element={<SignUp/>}></Route>
+            <Route path='/signin' element={<SignIn/>}></Route>
+            <Route path='/meeting' element={<Meeting/>}></Route>
+          </Routes>
+        </Router>
       </div>
-      <div className="main-body">
-        <VideoCall/>
-        <Chat/>
-      </div> */}
-      <div className="sign-in">
-        <SignIn/>
-      </div>
+      
     </>
   )
 }

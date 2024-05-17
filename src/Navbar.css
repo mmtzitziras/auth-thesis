@@ -1,10 +1,4 @@
-:root {
-    --blue: #3d52a0;
-    --medium-blue: #7091e6;
-    --grey: #8697c4;
-    --light-grey: #adbbda;
-    --light-bez: #ede8f5;
-  }
+
 
 .navbar {
     display: flex;
@@ -13,7 +7,8 @@
     background-color: var(--medium-blue);
     color: #fff;
     padding: 1rem;
-    border-bottom: #fff solid 2px;
+    /* border-bottom: #fff solid 2px; */
+    
   }
   
 .navbar-left .logo {

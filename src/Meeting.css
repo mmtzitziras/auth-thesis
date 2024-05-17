@@ -1,0 +1,13 @@
+.main-body{
+    padding: 2rem;
+    background-color: var(--light-bez);
+    display: flex;
+   }
+  
+  @media (max-width: 750px) {
+    .main-body {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+}
