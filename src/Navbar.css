@@ -7,15 +7,20 @@
     background-color: var(--dark-backround);
     color: #fff;
     padding: 1rem;
-    /* border-bottom: #fff solid 2px; */
+  
+    height: 70px;
+    min-height: 70px;
     
   }
   
-.navbar-left .logo {
+.navbar-left .logo > img {
     font-size: 1.5rem;
     font-weight: bold;
     color: #fff;
     text-decoration: none;
+    width: auto;
+    height: 50px;
+    padding: 5px;
   }
   
 .navbar-center .nav-links {

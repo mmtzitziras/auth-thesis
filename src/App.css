@@ -1,5 +1,4 @@
 :root {
-  
   --secondary-color: #042c62;
   --dark-backround: #010b19;
   --very-dark-backround: black;
@@ -16,8 +15,9 @@
 }
 
 body{
-  background-color: var(--main-color);
+  background-color: white;
 }
+
 .app{
   height: auto;
   overflow: hidden;

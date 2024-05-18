@@ -27,23 +27,24 @@ export default function SignIn(){
     };
     return(
         <div className='sign-in-container'>
-            <div className="background">
-                <div className="shape" />
-                <div className="shape" />
+            <div className="lines">
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
             </div>
             <form className='sign-form'>
                 <h3>Login Here</h3>
                 <label htmlFor="username">Username</label>
-                <input className='sign-input' type="text" placeholder="Email or Phone" id="username" />
+                <input className='sign-input' type="text" id="username" />
                 <label htmlFor="password">Password</label>
-                <input className='sign-input' type="password" placeholder="Password" id="password" />
+                <input className='sign-input' type="password" id="password" />
                 <button className='sign-in-btn'>Log In</button>
                 <div className="social">
                     <div className="go">
-                        <i className="fab fa-google" /> Google
+                        <i className="fab fa-google" /> 
                     </div>
                     <div className="fb">
-                        <i className="fab fa-facebook" /> Facebook
+                        <i className="fab fa-facebook" /> 
                     </div>
                 </div>
                 <div className='already'><p>Create an account <Link to="/">HERE!</Link></p></div>

@@ -1,34 +1,3 @@
-
-.background{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
-.shape:first-child{
-    background: linear-gradient(
-    var(--main-color),
-    var(--deep-color)
-    );
-    left: 80px;
-    top: 80px;
-}
-.shape:last-child{
-    background: linear-gradient(
-        to right,
-        var(--deep-color),
-        var(--main-color)
-    );
-    right: 30px;
-    bottom: 80px;
-}
 .sign-form{
     height: auto;
     width: auto;
@@ -55,11 +24,6 @@
     
 }
 
-@media (max-width: 1100px) {
-    .background{
-        visibility: hidden;
-    }
-}
 .sign-form *{
     font-family: 'Poppins',sans-serif;
     color: #ffffff;
@@ -96,7 +60,8 @@ label{
 .sign-input::placeholder{
     color: #e5e5e5;
 }
-.sign-in-btn{
+.sign-in-btn,
+.register-btn{
     margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
@@ -111,59 +76,114 @@ label{
     &:hover,
     &:focus { 
     color: #fff;
+    box-shadow: inset 0 0 0 2em var(--main-color);
   }
 }
 
-.sign-in-btn:hover,
-.sign-in-btn:focus{
-  box-shadow: inset 0 0 0 2em var(--main-color);
-}
 .social{
     margin-top: 30px;
     display: flex;
+    align-items: center;
 }
 .social div{
-    background: red;
+    
     width: 150px;
     border-radius: 3px;
     padding: 5px 10px 10px 5px;
     background-color: rgba(255,255,255,0.27);
     color: #eaf0fb;
     text-align: center;
+    
 }
 .social div:hover{
     background-color: rgba(255,255,255,0.47);
+    
 }
+
+
 .social .fb{
     margin-left: 25px;
+    
+    &:hover{
+        background-color: #4285F4;
+    }
+}
+
+.social .go{
+    
+    &:hover{
+        background-color: red;
+    }
 }
 .social i{
     margin-right: 4px;
+    
+    
 }
 
-.register{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.25s;
-  
-    &:hover,
-    &:focus { 
-    color: #fff;
-  }
-}
-
-.register:hover,
-.register:focus {
-  box-shadow: inset 0 0 0 2em var(--main-color);
-}
 
 .already{
     margin-top: 30px;
 }
+
+
+
+
+.lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    margin: auto;
+    width: 90vw;
+  }
+  
+  .line {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  
+  .line::after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 15vh;
+    width: 100%;
+    top: -50%;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100%);
+    animation: drop 7s 0s infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+  }
+  
+  .line:nth-child(1) {
+    margin-left: -25%;
+  }
+  
+  .line:nth-child(1)::after {
+    animation-delay: 2s;
+  }
+  
+  .line:nth-child(3) {
+    margin-left: 25%;
+  }
+  
+  .line:nth-child(3)::after {
+    animation-delay: 2.5s;
+  }
+  
+  @keyframes drop {
+    0% {
+      top: -50%;
+    }
+    100% {
+      top: 110%;
+    }
+  }

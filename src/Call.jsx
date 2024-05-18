@@ -1,24 +1,30 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { CallingState, StreamTheme, StreamCall, StreamVideo, StreamVideoClient, useCall, useCallStateHooks,ParticipantView} from '@stream-io/video-react-sdk';
-import {
-    CallControls,
-    SpeakerLayout,
-  } from '@stream-io/video-react-sdk';
+import { 
+  CallingState, 
+  StreamTheme, 
+  StreamCall, 
+  StreamVideo, 
+  StreamVideoClient, 
+  useCallStateHooks,
+  ParticipantView,
+  CallControls,
+  SpeakerLayout} from '@stream-io/video-react-sdk';
+
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './Call.css'
 
 const apiKey = 'mmhfdzb5evj2'; // the API key can be found in the "Credentials" section
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiR2lsYWRfUGVsbGFlb24iLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0dpbGFkX1BlbGxhZW9uIiwiaWF0IjoxNzE2MDI0MTkyLCJleHAiOjE3MTY2Mjg5OTd9.vVq1M0GT36Q1A1Kgz6fT-fPKxs4bxwpsV_Pmh9eMO94'; // the token can be found in the "Credentials" section
 const userId = 'Gilad_Pellaeon'; // the user id can be found in the "Credentials" section
-const callId = 'pNeSzSuw1GSM'; // the call id can be found in the "Credentials" section
+const callId = 'Ss8S0GG3WEkc'; // the call id can be found in the "Credentials" section
 
 // set up the user object
 const user = {
   id: userId,
-  name: 'Marios Tzitziras',
-  image: 'https://getstream.io/random_svg/?id=oliver&name=Oliver',
+  name: 'Krystalia Polymou',
+  image: 'https://getstream.io/random_svg/?id=oliver&name=' + {name},
 };
 
 const client = new StreamVideoClient({ apiKey, user, token });
@@ -43,14 +49,13 @@ export const MyUILayout = () => {
     const remoteParticipants = useRemoteParticipants();
   
     if (callingState !== CallingState.JOINED) {
-      return <div>Loading...</div>;
+      return <a className="pulsingButton" href="/">GO BACK</a>;
+      
     }
   
     return (
         
         <StreamTheme>
-            {/* <MyParticipantList participants={remoteParticipants} />
-            <MyFloatingLocalParticipant participant={localParticipant} /> */}
             <SpeakerLayout participantsBarPosition='bottom' />
             <CallControls />
         </StreamTheme>

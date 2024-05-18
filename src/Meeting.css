@@ -3,7 +3,8 @@
     display: flex;
     max-height: 100vh;
     background-color: var(--very-dark-backround);
-    height: 100vh;
+    height: calc(100vh - 70px);
+    overflow: hidden;
    }
   
   @media (max-width: 750px) {

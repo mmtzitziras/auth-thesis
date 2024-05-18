@@ -10,14 +10,6 @@ export default function SignUp(){
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
-    
-    // const navigate = useNavigate();
-
-    // const handleClick = () => {
-    //     navigate('./VideoCall.jsx');
-    // }
-
-
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
@@ -36,9 +28,10 @@ export default function SignUp(){
     return(
         <>
             <div className='sign-up-container'>
-                <div className="background">
-                    <div className="shape" />
-                    <div className="shape" />
+                <div className="lines">
+                    <div className="line"></div>
+                    <div className="line"></div>
+                    <div className="line"></div>
                 </div>
                 <form className='sign-form'>
                     <h3>Register Here</h3>
@@ -48,15 +41,15 @@ export default function SignUp(){
                     <input className='sign-input' type="text"  id="username" />
                     <label htmlFor="password">Password</label>
                     <input  className='sign-input'type="password"  id="password" />
-                    <button className='register' onClick={()=>{
+                    <button className='register-btn' onClick={()=>{
                         navigate("/meeting")
                     }}>Register</button>
                     <div className="social">
                         <div className="go">
-                            <i className="fab fa-google" /> Google
+                            <i className="fab fa-google" /> 
                         </div>
                         <div className="fb">
-                            <i className="fab fa-facebook" /> Facebook
+                            <i className="fab fa-facebook" />
                         </div>
                     </div>
                     <div className='already'><p>Already have an account? <Link to="/signin">LOG IN!</Link></p></div>

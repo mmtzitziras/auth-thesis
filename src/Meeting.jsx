@@ -7,9 +7,9 @@ import VideoCall from './VideoCall.jsx'
 export default function Meeting(){
     return(
         <div className='meeting-container'>
-            {/* <div className="nav-bar">
+            <div className="nav-bar">
                 <NavBar/>
-            </div> */}
+            </div>
             <div className="main-body">
                 <VideoCall/>
                 <Chat/>
