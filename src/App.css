@@ -1,9 +1,10 @@
 :root {
   
-  --secondary-color: #a37cf0;
-  --dark-backround: #121212;
+  --secondary-color: #042c62;
+  --dark-backround: #010b19;
   --very-dark-backround: black;
-  --main-color: #5f43b2;
+  --main-color: #05377b;
+  --deep-color: #03214a;
 }
 
 *,
@@ -14,9 +15,13 @@
     box-sizing: border-box;
 }
 
+body{
+  background-color: var(--main-color);
+}
 .app{
-  height: 100vh;
- 
+  height: auto;
+  overflow: hidden;
+  background-color: var(--main-color);
 }
 
 div:has(.sign-up-container),

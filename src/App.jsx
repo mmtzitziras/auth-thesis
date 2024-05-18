@@ -6,6 +6,7 @@ import './Sign.css'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
 import Meeting from './Meeting.jsx'
+import Call from './Call.jsx'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path='/' element={<SignUp/>}></Route>
             <Route path='/signin' element={<SignIn/>}></Route>
             <Route path='/meeting' element={<Meeting/>}></Route>
+            <Route path='/call' element={<Call/>}></Route>
           </Routes>
         </Router>
       </div>

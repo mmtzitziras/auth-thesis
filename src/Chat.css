@@ -16,7 +16,9 @@
 @media (max-width: 750px) {
   .chat-app {
     width: 100%;
-    min-height: 300px;
+    min-height: 200px;
+    overflow: hidden;
+    display: none;
   }
 }
 

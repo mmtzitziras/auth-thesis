@@ -1,13 +1,14 @@
 .main-body{
-    padding: 2rem;
+    padding: 10px;
     display: flex;
-    max-height: 80vh;
+    max-height: 100vh;
+    background-color: var(--very-dark-backround);
+    height: 100vh;
    }
   
   @media (max-width: 750px) {
     .main-body {
       flex-direction: column;
-      justify-content: center;
       align-items: center;
     }
 }

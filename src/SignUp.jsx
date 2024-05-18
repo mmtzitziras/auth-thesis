@@ -43,11 +43,11 @@ export default function SignUp(){
                 <form className='sign-form'>
                     <h3>Register Here</h3>
                     <label htmlFor="username">Username</label>
-                    <input className='sign-input' type="text" placeholder="Username" id="username" />
+                    <input className='sign-input' type="text"  id="username" />
                     <label htmlFor="username">Email</label>
-                    <input className='sign-input' type="text" placeholder="Email" id="username" />
+                    <input className='sign-input' type="text"  id="username" />
                     <label htmlFor="password">Password</label>
-                    <input  className='sign-input'type="password" placeholder="Password" id="password" />
+                    <input  className='sign-input'type="password"  id="password" />
                     <button className='register' onClick={()=>{
                         navigate("/meeting")
                     }}>Register</button>

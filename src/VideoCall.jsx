@@ -4,6 +4,7 @@ import React, {useRef, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom/client'
 import playButton from './assets/play-circle.svg'
 import stopButton from './assets/stop-circle.svg'
+import Call from './Call'
 
 
 
@@ -48,12 +49,10 @@ export default function VideoCall(){
 
     return (
         <div className="video-call">
-            <video ref={videoRef}></video>
-            <div className="controls">
-                <button onClick={stopVideo}><img src={stopButton} alt="stopButton" /></button>
-                <button onClick={getVideo}><img src={playButton} alt="playButton" /></button>
+            {/* <video ref={videoRef}></video> */}
+            <div className='video'>
+                <Call/>
             </div>
-            
         </div>
     );
 }
