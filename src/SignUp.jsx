@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom/client';
 import { useNavigate, Link, Navigate } from "react-router-dom";
 
 
@@ -8,6 +7,7 @@ export default function SignUp(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
 
     const navigate = useNavigate();
     const handleEmailChange = (e) => {

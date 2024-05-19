@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
 import './App.css'
 import './Meeting.css'
 import './Sign.css'
@@ -18,9 +17,9 @@ function App() {
         <Router>
           <Routes>
             <Route path='/' element={<LandingPage/>}></Route>
-            <Route path='/signin' element={<SignIn/>}></Route>
+            <Route path='/sign-in' element={<SignIn/>}></Route>
+            <Route path='/sign-up' element={<SignUp/>}></Route>
             <Route path='/meeting' element={<Meeting/>}></Route>
-            <Route path='/call' element={<Call/>}></Route>
           </Routes>
         </Router>
       </div>

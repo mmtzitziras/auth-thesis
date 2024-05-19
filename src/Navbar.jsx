@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import './Navbar.css'
 import React from 'react'
-import ReactDOM from 'react-dom/client'
 import accountLogo from './assets/account.svg'
 
 import tholosLogoWhite from './assets/tholos-logo-transparent-white.png'

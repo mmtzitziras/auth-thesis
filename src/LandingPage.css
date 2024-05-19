@@ -41,18 +41,14 @@
   }
   
   
-  /* Comment-out to have the button continue to pulse on mouseover */
-  
-  /* .pulsingButton:hover {
+  .pulsingButton:hover {
     -webkit-animation: none;
     -moz-animation: none;
     -ms-animation: none;
     animation: none;
     color: #ffffff;
   }
-   */
   
-  /* Animation */
   
   @-webkit-keyframes pulsing {
     to {

@@ -20,7 +20,6 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiR2lsYWRfUGVs
 const userId = 'Gilad_Pellaeon'; // the user id can be found in the "Credentials" section
 const callId = 'Ss8S0GG3WEkc'; // the call id can be found in the "Credentials" section
 
-// set up the user object
 const user = {
   id: userId,
   name: 'Krystalia Polymou',

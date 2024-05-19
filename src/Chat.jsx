@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import './Chat.css'
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom/client'
 import sendButton from './assets/send-button.svg'
 
 
