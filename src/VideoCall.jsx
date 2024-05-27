@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import './VideoCall.css'
-import React, {useRef, useEffect, useState} from 'react'
+import React from 'react'
 import Call from './Call'
 
 

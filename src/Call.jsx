@@ -16,9 +16,9 @@ import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './Call.css'
 
 const apiKey = 'mmhfdzb5evj2'; // the API key can be found in the "Credentials" section
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiR2lsYWRfUGVsbGFlb24iLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0dpbGFkX1BlbGxhZW9uIiwiaWF0IjoxNzE2MDI0MTkyLCJleHAiOjE3MTY2Mjg5OTd9.vVq1M0GT36Q1A1Kgz6fT-fPKxs4bxwpsV_Pmh9eMO94'; // the token can be found in the "Credentials" section
-const userId = 'Gilad_Pellaeon'; // the user id can be found in the "Credentials" section
-const callId = 'Ss8S0GG3WEkc'; // the call id can be found in the "Credentials" section
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQXNhampfVmVudHJlc3MiLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0FzYWpqX1ZlbnRyZXNzIiwiaWF0IjoxNzE2NzI0MTkyLCJleHAiOjE3MTczMjg5OTd9.OKQwWc2f8_xn0u7Dyu8Q31nRDoqx2C_34-q_kE6DdMU'; // the token can be found in the "Credentials" section
+const userId = 'Asajj_Ventress'; // the user id can be found in the "Credentials" section
+const callId = 'RNAY0EfwaWXp'; // the call id can be found in the "Credentials" section
 
 const user = {
   id: userId,
