@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
 import NavBar from './Navbar.jsx'
 import Chat from './Chat.jsx'
-import VideoCall from './VideoCall.jsx'
+import Call from './Call'
 
 
 export default function Meeting(){
@@ -12,7 +11,11 @@ export default function Meeting(){
                 <NavBar/>
             </div>
             <div className="main-body">
-                <VideoCall/>
+                <div className="video-call">
+                    <div className='video'>
+                        <Call/>
+                    </div>
+                </div>
                 <Chat/>
             </div>
         </div>
