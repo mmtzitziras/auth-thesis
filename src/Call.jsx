@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {useEffect} from 'react';
 import { 
   CallingState, 
   StreamTheme, 
@@ -15,10 +15,11 @@ import {
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './Call.css'
 
-const apiKey = 'mmhfdzb5evj2'; // the API key can be found in the "Credentials" section
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQXNhampfVmVudHJlc3MiLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0FzYWpqX1ZlbnRyZXNzIiwiaWF0IjoxNzE2NzI0MTkyLCJleHAiOjE3MTczMjg5OTd9.OKQwWc2f8_xn0u7Dyu8Q31nRDoqx2C_34-q_kE6DdMU'; // the token can be found in the "Credentials" section
-const userId = 'Asajj_Ventress'; // the user id can be found in the "Credentials" section
-const callId = 'RNAY0EfwaWXp'; // the call id can be found in the "Credentials" section
+
+const apiKey = '45dqp56h7thu';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYXV0aC10aGVzaXMifQ.LAuj6HG91ktQ1yjkdPIJBGxins7gk66dDxAX8U9J-Bc';
+const callId = 'default_441ace83-3182-4fcd-9dd9-33199e808dee';
+const userId = 'auth-thesis';
 
 const user = {
   id: userId,
@@ -44,14 +45,12 @@ export const MyUILayout = () => {
     const { useCallCallingState, useLocalParticipant, useRemoteParticipants } = useCallStateHooks();
   
     const callingState = useCallCallingState();
-    const localParticipant = useLocalParticipant();
-    const remoteParticipants = useRemoteParticipants();
-  
-    if (callingState !== CallingState.JOINED) {
-      return <a className="pulsingButton" href="/">GO BACK</a>;
+   
+    // if (callingState !== CallingState.JOINED) {
+    //   return <a className="pulsingButton" href="/">GO BACK</a>;
       
-    }
-  
+    // }
+
     return (
         
         <StreamTheme>
