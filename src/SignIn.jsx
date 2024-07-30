@@ -2,31 +2,39 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { useNavigate, Link, Navigate } from "react-router-dom";
-
+import { doSignInWithEmailAndPassword, doSignInWithGoogle} from './firebase/auth';
+import { useAuth } from '../../../projects/auth-thesis/src/contexts/authContext';
 
 export default function SignIn(){
 
+    // const {userLoggedIn} = useAuth();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isSigningIn, setIsSigningIn] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
 
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        console.log('Email:', email);
-        console.log('Password:', password);
-        setEmail('');
-        setPassword('');
-    };
+        if(!isSigningIn){
+            setIsSigningIn(true);
+            await doSignInWithEmailAndPassword(email, password);
+        }
+    }
+
+    const onGoogleSignIn = (e) =>{
+        e.preventDefault();
+        if(!isSigningIn){
+            setIsSigningIn(true);
+            doSignInWithGoogle().catch(err => {
+                setIsSigningIn(false);
+            })
+        }
+    }
+    
     return(
         <div className='sign-in-container'>
+            {/* {userLoggedIn && (<Navigate to={'/'} replace={true}/>)} */}
             <div className="lines">
                 <div className="line"></div>
                 <div className="line"></div>
@@ -47,7 +55,7 @@ export default function SignIn(){
                         <i className="fab fa-facebook" /> 
                     </div>
                 </div>
-                <div className='already'><p>Create an account <Link to="/">HERE!</Link></p></div>
+                <div className='already'><p>Create an account <Link to="/sign-up">HERE!</Link></p></div>
             </form>
         </div>);
 }
