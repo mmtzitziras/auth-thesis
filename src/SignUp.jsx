@@ -12,9 +12,7 @@ export default function SignUp(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [fname, setFname] = useState("");
-    const [lname, setLname] = useState("");
-
+    const [name, setName] = useState("");
 
     const handleRegister= async(e)=>{
         e.preventDefault();
@@ -25,8 +23,7 @@ export default function SignUp(){
           if (user){
             await setDoc(doc(db, "Users", user.uid),{
                 email: user.email,
-                firstName: fname,
-                lastName: lname,
+                name: name,
             });
           }
           console.log("User registered successfully");
@@ -48,23 +45,12 @@ export default function SignUp(){
                     <h3>Sign Up</h3>
 
                     <div className="mb-3">
-                        <label>First name</label>
+                        <label>Name</label>
                         <input
                         type="text"
                         className='sign-input'
-                        placeholder="First name"
-                        onChange={(e) => setFname(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                         required
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label>Last name</label>
-                        <input
-                        type="text"
-                        className='sign-input'
-                        placeholder="Last name"
-                        onChange={(e) => setLname(e.target.value)}
                         />
                     </div>
 
@@ -73,7 +59,6 @@ export default function SignUp(){
                         <input
                         type="email"
                         className='sign-input'
-                        placeholder="Enter email"
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         />
@@ -84,7 +69,6 @@ export default function SignUp(){
                         <input
                         type="password"
                         className='sign-input'
-                        placeholder="Enter password"
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         />
