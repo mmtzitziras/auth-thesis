@@ -13,7 +13,6 @@ export default function Navbar(){
     const fetchUserData = async () => {
         auth.onAuthStateChanged(async (user) => {
             console.log(user);
-
             const docRef = doc(db, "Users", user.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
@@ -37,7 +36,7 @@ export default function Navbar(){
             </div>
             
             <div className="navbar-right">
-                <p href="/account" className="user-icon">{userDetails.name}</p>
+                <p href="/account" className="user-icon">{userDetails ? userDetails.name : ' '}</p>
                 <a href="/account"><img src={accountLogo} alt="account-image" className='user-icon' /></a>
             </div>
         </nav>  
