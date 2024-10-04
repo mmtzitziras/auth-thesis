@@ -6,6 +6,9 @@ import { auth, db } from './firebase/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 import tholosLogoWhite from './assets/tholos-logo-transparent-white.png'
 
+  
+  import '@stream-io/video-react-sdk/dist/css/styles.css';
+
 
 export default function Navbar(){
 
@@ -18,6 +21,7 @@ export default function Navbar(){
             if (docSnap.exists()) {
                 setUserDetails(docSnap.data());
                 console.log(docSnap.data());
+                console.log(docSnap.data().name);
             } else {
                 console.log("User is not logged in");
             }
@@ -30,14 +34,14 @@ export default function Navbar(){
     return ( 
         <nav className="navbar">
             <div className="navbar-left">
-                <a href="/" className="logo">
+                <a href="/main-page" className="logo">
                     <img src={tholosLogoWhite} alt="tholos" />
                 </a>
             </div>
             
             <div className="navbar-right">
-                <p href="/account" className="user-icon">{userDetails ? userDetails.name : ' '}</p>
-                <a href="/account"><img src={accountLogo} alt="account-image" className='user-icon' /></a>
+                <p href="/profile" className="user-icon">{userDetails ? userDetails.name : ' '}</p>
+                <a href="/profile"><img src={accountLogo} alt="account-image" className='user-icon' /></a>
             </div>
         </nav>  
     );

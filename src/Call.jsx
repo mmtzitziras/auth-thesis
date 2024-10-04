@@ -54,10 +54,12 @@ export default function Call() {
         fetchUserData();
     }, []);
 
-  const apiKey = '45dqp56h7thu';
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYXV0aC10aGVzaXMifQ.LAuj6HG91ktQ1yjkdPIJBGxins7gk66dDxAX8U9J-Bc';
-  const callId = 'default_441ace83-3182-4fcd-9dd9-33199e808dee';
+  const apiKey = 'gznn9kyeap2y';
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYXV0aC10aGVzaXMifQ.ohEwaIj9KAZqlR2cr44dyPN3veCxaYFKCVvcR4-2EYs';
+  const callId = 'v67xefarvsw8dwh2w6gmxnrtwdzmfrgpqjpk6chhw4hznmabff8aynfuacqdsun2';
   const userId = 'auth-thesis';
+  
+
 
   const user = {
     id: userId,
