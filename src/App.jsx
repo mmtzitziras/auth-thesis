@@ -4,6 +4,7 @@ import './Meeting.css'
 import './Sign.css'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
+import Token from './Token.jsx'
 import LandingPage from './LandingPage.jsx'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -31,6 +32,7 @@ function App() {
                 path='/'
                 element={user ? <Navigate to="/profile" /> : <SignIn />}
             />
+            <Route path='/token' element={<Token/>}></Route>
             <Route path='/main-page' element={<LandingPage/>}></Route>
             <Route path='/sign-in' element={<SignIn/>}></Route>
             <Route path='/sign-up' element={<SignUp/>}></Route>

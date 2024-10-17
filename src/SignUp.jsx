@@ -13,6 +13,7 @@ export default function SignUp(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    const [token, setToken] = useState("");
 
     const handleRegister= async(e)=>{
         e.preventDefault();
@@ -24,8 +25,10 @@ export default function SignUp(){
             await setDoc(doc(db, "Users", user.uid),{
                 email: user.email,
                 name: name,
+                token: token,
             });
           }
+          window.location.href = "/";
           console.log("User registered successfully");
         } catch(error){
             console.log(error.message);
@@ -70,6 +73,15 @@ export default function SignUp(){
                         type="password"
                         className='sign-input'
                         onChange={(e) => setPassword(e.target.value)}
+                        required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label>Token <a href="/token" target='_blank'>?</a></label>
+                        <input
+                        type="text"
+                        className='sign-input'
+                        onChange={(e) => setToken(e.target.value)}
                         required
                         />
                     </div>

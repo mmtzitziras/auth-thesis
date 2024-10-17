@@ -12,32 +12,30 @@ import {
   useCallStateHooks,
   ParticipantView,
   CallControls,
-  SpeakerLayout} from '@stream-io/video-react-sdk';
+  SpeakerLayout,
+  CancelCallConfirmButton} from '@stream-io/video-react-sdk';
+
+  import {
+    CancelCallButton,
+    SpeakingWhileMutedNotification,
+    ToggleAudioPublishingButton,
+    ToggleVideoPublishingButton,
+    ScreenShareButton,
+    RecordCallButton,
+  } from '@stream-io/video-react-sdk';
 
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './Call.css'
+import { Navigate, redirect, useHref } from 'react-router-dom';
 
 
-// const apiKey = '45dqp56h7thu';
-// const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYXV0aC10aGVzaXMifQ.LAuj6HG91ktQ1yjkdPIJBGxins7gk66dDxAX8U9J-Bc';
-// const callId = 'default_441ace83-3182-4fcd-9dd9-33199e808dee';
-// const userId = 'auth-thesis';
-
-// const fuser = auth.currentUser;
-// const user = {
-//   id: userId,
-//   name: fuser.name,
-//   image: 'https://getstream.io/random_svg/?id=oliver&name=' + {name},
-// };
-
-// const client = new StreamVideoClient({ apiKey, user, token });
-// const call = client.call('default', callId);
-// call.join({ create: true });
-
-export default function Call() {
+export default function Call(props) {
 
   const [userDetails, setUserDetails] = useState(null);
-    const fetchUserData = async () => {
+  const [callId, setCallId] = useState(null);
+  const [joinCreate, setJoinCreate] = useState(" ");
+  const [startCall, setStartCall] = useState(false);
+  const fetchUserData = async () => {
         auth.onAuthStateChanged(async (user) => {
             console.log(user);
             const docRef = doc(db, "Users", user.uid);
@@ -54,23 +52,80 @@ export default function Call() {
         fetchUserData();
     }, []);
 
-  const apiKey = 'gznn9kyeap2y';
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYXV0aC10aGVzaXMifQ.ohEwaIj9KAZqlR2cr44dyPN3veCxaYFKCVvcR4-2EYs';
-  const callId = 'v67xefarvsw8dwh2w6gmxnrtwdzmfrgpqjpk6chhw4hznmabff8aynfuacqdsun2';
-  const userId = 'auth-thesis';
+
   
 
+    const handleJoinCall = async (e) => {
+      e.preventDefault();
+      try {
+          setJoinCreate('Join');
+          setStartCall(true);
+      } catch (error) {
+          console.log(error.message);
+      }
+  };
 
+  const handleCreateCall = async (e) => {
+    e.preventDefault();
+    try {
+      setJoinCreate('Create');
+      setStartCall(true);
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+ 
+  const apiKey = 'gznn9kyeap2y';
+  const apiSecret = 'v67xefarvsw8dwh2w6gmxnrtwdzmfrgpqjpk6chhw4hznmabff8aynfuacqdsun2';
+ 
   const user = {
-    id: userId,
+    id: userDetails ? userDetails.name : ' ',
     name: userDetails ? userDetails.name : ' ',
     image: 'https://getstream.io/random_svg/?id=oliver&name=' + {name},
   };
 
+  const token = userDetails ? userDetails.token : ' ';
+
+  if (startCall == false){
+    return(
+      <div>    
+        <form  className='sign-form call-id-form'>
+          <h3>Join or Create Call!</h3>        
+          <div className="mb-3">
+            <label>Call ID</label>
+            <input
+            type="text"
+            className='sign-input'
+            placeholder="Enter call id"
+            value={callId}
+            onChange={(e) => setCallId(e.target.value)}
+            />
+          </div>
+          <div className="d-grid">
+            <button onClick={handleJoinCall} className="btn sign-in-btn">
+              Join Call
+            </button>
+          </div>
+          <div className="d-grid">
+            <button onClick={handleCreateCall} className="btn sign-in-btn">
+            Create Call
+            </button>
+          </div>   
+        </form>
+      </div>
+            
+    );
+  }
+
   if (user.name != ' '){
     const client = new StreamVideoClient({ apiKey, user, token });
     const call = client.call('default', callId);
-    call.join({ create: true });
+    if (joinCreate == 'Join'){
+      call.join();
+    }
+    else{
+      call.join({create: true});
+    }
     return (
       <StreamVideo client={client}>
         <StreamCall call={call}>
@@ -93,12 +148,29 @@ export const MyUILayout = () => {
     //   return <a className="pulsingButton" href="/">GO BACK</a>;
       
     // }
+    async function handleLeave() {
+      try {
+        window.location.href = "/";
+        console.log("User logged out successfully!");
+      } catch (error) {
+        console.error("Error logging out:", error.message);
+      }
+    }
 
     return (
         
         <StreamTheme>
             <SpeakerLayout participantsBarPosition='bottom' />
-            <CallControls />
+            <div className="str-video__call-controls">
+              <SpeakingWhileMutedNotification>
+              <ToggleAudioPublishingButton />
+              </SpeakingWhileMutedNotification>
+              <ToggleVideoPublishingButton />
+              <ScreenShareButton></ScreenShareButton>
+              <RecordCallButton></RecordCallButton>
+              <CancelCallConfirmButton onClick={handleLeave}></CancelCallConfirmButton>
+            </div>
+            
         </StreamTheme>
        
       
