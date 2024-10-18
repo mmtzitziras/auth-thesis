@@ -9,6 +9,13 @@ import React, {useEffect, useState} from 'react';
 
 
 export default function Meeting(){
+
+
+    const [callId, setCallId] = useState("");
+
+  function handleDataFromCall(data) {
+    setCallId(data);
+  }
     
     return(
         <div className='meeting-container'>
@@ -18,10 +25,10 @@ export default function Meeting(){
             <div className="main-body">
                 <div className="video-call">
                     <div className='video'>
-                        <Call/>
+                        <Call sendData={handleDataFromCall}/>
                     </div>
                 </div>
-                <Chat/>
+                <Chat room={callId}/>
             </div>
         </div>
         

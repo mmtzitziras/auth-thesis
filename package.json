@@ -21,7 +21,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
     "reactjs-popup": "^2.0.6",
-    "simplebar-react": "^3.2.5"
+    "simplebar-react": "^3.2.5",
+    "universal-cookie": "^7.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",

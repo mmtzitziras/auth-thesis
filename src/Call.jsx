@@ -29,10 +29,10 @@ import './Call.css'
 import { Navigate, redirect, useHref } from 'react-router-dom';
 
 
-export default function Call(props) {
+export default function Call({ sendData }) {
 
   const [userDetails, setUserDetails] = useState(null);
-  const [callId, setCallId] = useState(null);
+  const [callId, setCallId] = useState("");
   const [joinCreate, setJoinCreate] = useState(" ");
   const [startCall, setStartCall] = useState(false);
   const fetchUserData = async () => {
@@ -55,10 +55,11 @@ export default function Call(props) {
 
   
 
-    const handleJoinCall = async (e) => {
+  const handleJoinCall = async (e) => {
       e.preventDefault();
       try {
           setJoinCreate('Join');
+          sendData(callId);
           setStartCall(true);
       } catch (error) {
           console.log(error.message);
@@ -69,6 +70,7 @@ export default function Call(props) {
     e.preventDefault();
     try {
       setJoinCreate('Create');
+      sendData(callId);
       setStartCall(true);
     } catch (error) {
         console.log(error.message);
@@ -120,10 +122,10 @@ export default function Call(props) {
   if (user.name != ' '){
     const client = new StreamVideoClient({ apiKey, user, token });
     const call = client.call('default', callId);
+
     if (joinCreate == 'Join'){
       call.join();
-    }
-    else{
+    }else{
       call.join({create: true});
     }
     return (
