@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import './Chat.css'
-import React, { useState , useEffect} from 'react'
+import React, { useState , useEffect, useRef} from 'react'
 import sendButton from './assets/send-button.svg'
 import { addDoc, collection, serverTimestamp, doc, getDoc, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 import { auth, db } from './firebase/firebase';
@@ -14,6 +14,16 @@ export default function Chat(props){
   const messagesRef = collection(db, "messages")
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([])
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom(); // Scroll to the bottom when messages change
+  }, [messages]);
 
 
   const fetchUserData = async () => {
@@ -63,6 +73,7 @@ export default function Chat(props){
         createdAt: serverTimestamp(),
         user: userDetails.name,
         room,
+        timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',hour12: false }),
       });
       setNewMessage("");
     }
@@ -70,16 +81,18 @@ export default function Chat(props){
       return (
         <div className="chat-app">
           <div className="chat-header">
-            <h1>Welcome to: {room}</h1>
+            <h1>Room: {room}</h1>
           </div>
           <div className='messages'>{messages.map((message) => 
-            <div className="message" key={message.id}>
-              <span className='user'>{message.user}</span>
-              {message.text}
+            <div className="message-container" key={message.id}>
+              <span className='user'>{message.user} </span>
+              <span className='message'>{message.text}</span>
+              <span className='timestamp'>{message.timestamp}</span>
             </div>
             )}
+            <div className='scroll-down' ref={messagesEndRef}></div>
           </div>
-          <form onSubmit={handleSubmit} className='new-message-form'>
+          <form onSubmit={handleSubmit} className='input-area'>
             <input
             className='new-message-input'
             type="text"

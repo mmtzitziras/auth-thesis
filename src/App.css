@@ -38,7 +38,39 @@ div:has(.sign-in-container){
 }
 
 div:has(.meeting-container){
-  background-color: black;
+  background-color: var(--dark-backround);
   overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark-backround);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark-backround);
+  border-radius: 20px;
+}
+
+
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background-color: var(--deep-color);
+
 }
 

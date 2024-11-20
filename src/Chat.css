@@ -48,16 +48,28 @@
 
 }
 
-.message-text{
+.message-container{
   text-decoration: none;
   font-size: calc(.7rem + .2vw + .2vh);
   color: white;
-  text-align: start;
+  display: flex;
+  flex-direction: column;
 }
+
 .timestamp{
   font-size: calc(.5rem + .2vw + .2vh);
-  color: whitesmoke;
+  color: grey;
   margin-top: .8em;
+  margin-left: 1em;
+}
+
+.user{
+  color: gray;
+  text-align: start;
+}
+
+.message{
+  margin-top: 10px;
 }
 
 .input-area{
@@ -98,5 +110,19 @@
   
 }
 
+.chat-header{
+  margin: .8em;
+  text-align: center;
+  color: whitesmoke;
+  border-bottom: 2px solid whitesmoke;
+  
+}
+
+.scroll-down{
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
 
 

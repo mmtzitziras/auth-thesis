@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import { auth, db } from './firebase/firebase';
 import { getDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs, deleteDoc, getFirestore } from "firebase/firestore";
 import { 
   CallingState, 
   StreamTheme, 
@@ -131,7 +132,7 @@ export default function Call({ sendData }) {
     return (
       <StreamVideo client={client}>
         <StreamCall call={call}>
-          <MyUILayout />
+          <MyUILayout room={callId}/>
         </StreamCall>
       </StreamVideo>
     );
@@ -141,8 +142,9 @@ export default function Call({ sendData }) {
   
 }
 
-export const MyUILayout = () => {
+export const MyUILayout = (props) => {
     const { useCallCallingState, useLocalParticipant, useRemoteParticipants } = useCallStateHooks();
+    const {room} = props
   
     const callingState = useCallCallingState();
    
@@ -150,13 +152,29 @@ export const MyUILayout = () => {
     //   return <a className="pulsingButton" href="/">GO BACK</a>;
       
     // }
-    async function handleLeave() {
+    async function handleEnd() {
       try {
+        const messagesRef = collection(db, "messages"); // Replace 'messages' with your collection name
+        const q = query(messagesRef, where("room", "==", room));
+        const querySnapshot = await getDocs(q);
+    
+        const deletePromises = [];
+        querySnapshot.forEach((doc) => {
+          deletePromises.push(deleteDoc(doc.ref)); // Add delete operation to the promises array
+        });
+        
+        await Promise.all(deletePromises); // Wait for all delete operations to complete
+        console.log("All messages in the room have been deleted.");
         window.location.href = "/";
-        console.log("User logged out successfully!");
       } catch (error) {
-        console.error("Error logging out:", error.message);
+        console.error("Error deleting messages: ", error);
       }
+      // try {
+      //   window.location.href = "/";
+      //   console.log("User logged out successfully!");
+      // } catch (error) {
+      //   console.error("Error logging out:", error.message);
+      // }
     }
 
     return (
@@ -170,7 +188,7 @@ export const MyUILayout = () => {
               <ToggleVideoPublishingButton />
               <ScreenShareButton></ScreenShareButton>
               <RecordCallButton></RecordCallButton>
-              <CancelCallConfirmButton onClick={handleLeave}></CancelCallConfirmButton>
+              <CancelCallConfirmButton onClick={handleEnd}></CancelCallConfirmButton>
             </div>
             
         </StreamTheme>
