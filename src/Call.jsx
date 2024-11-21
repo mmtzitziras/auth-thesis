@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react';
 import { auth, db } from './firebase/firebase';
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, addDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { collection, query, where, getDocs, deleteDoc, getFirestore } from "firebase/firestore";
 import { 
   CallingState, 
@@ -14,7 +14,7 @@ import {
   ParticipantView,
   CallControls,
   SpeakerLayout,
-  CancelCallConfirmButton} from '@stream-io/video-react-sdk';
+  CancelCallConfirmButton,} from '@stream-io/video-react-sdk';
 
   import {
     CancelCallButton,
@@ -31,7 +31,7 @@ import { Navigate, redirect, useHref } from 'react-router-dom';
 
 
 export default function Call({ sendData }) {
-
+  const [call, setCall] = useState (undefined);
   const [userDetails, setUserDetails] = useState(null);
   const [callId, setCallId] = useState("");
   const [joinCreate, setJoinCreate] = useState(" ");
@@ -58,25 +58,84 @@ export default function Call({ sendData }) {
 
   const handleJoinCall = async (e) => {
       e.preventDefault();
+      // try {
+      //     setJoinCreate('Join');
+      //     sendData(callId);
+      //     setStartCall(true);
+      // } catch (error) {
+      //     console.log(error.message);
+      // }
+
       try {
-          setJoinCreate('Join');
-          sendData(callId);
-          setStartCall(true);
+        // Αναφορά στο collection activeCalls
+        const activeCallsRef = collection(db, "activeCalls");
+        const q = query(activeCallsRef, where("callId", "==", callId), where("isActive", "==", true));
+        const querySnapshot = await getDocs(q);
+    
+        // Έλεγχος αν υπάρχει το call
+        if (querySnapshot.empty) {
+          alert("The call does not exist or is no longer active. Please try again.");
+          setCallId(""); // Καθαρισμός του πεδίου εισαγωγής
+          return;
+        }
+    
+        // Αν το call είναι ενεργό, ξεκινά η διαδικασία join
+        setJoinCreate("Join");
+        sendData(callId);
+        setStartCall(true);
       } catch (error) {
-          console.log(error.message);
+        console.error("Error joining the call:", error.message);
+        alert("An error occurred while trying to join the call. Please try again.");
       }
   };
 
   const handleCreateCall = async (e) => {
     e.preventDefault();
+    // try {
+    //   setJoinCreate('Create');
+    //   sendData(callId);
+    //   const activeCallsRef = collection(db, "activeCalls");
+    //   await addDoc(activeCallsRef, {
+    //   callId,
+    //   isActive: true,
+    //   createdAt: new Date(),
+    // });
+    //   setStartCall(true);
+    // } catch (error) {
+    //     console.log(error.message);
+    // }
     try {
-      setJoinCreate('Create');
+      setJoinCreate("Create");
+  
+
+      const activeCallsRef = collection(db, "activeCalls");
+      const q = query(activeCallsRef, where("callId", "==", callId));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        
+        querySnapshot.forEach(async (doc) => {
+          await updateDoc(doc.ref, { isActive: true, createdAt: new Date() });
+        });
+        console.log("Room reactivated.");
+      } else {
+       
+        await addDoc(activeCallsRef, {
+          callId,
+          isActive: true,
+          createdAt: new Date(),
+        });
+        console.log("Room created.");
+      }
+  
       sendData(callId);
       setStartCall(true);
     } catch (error) {
-        console.log(error.message);
+      console.error("Error creating the call:", error.message);
+      alert("An error occurred while trying to create the call. Please try again.");
     }
 };
+
  
   const apiKey = 'gznn9kyeap2y';
   const apiSecret = 'v67xefarvsw8dwh2w6gmxnrtwdzmfrgpqjpk6chhw4hznmabff8aynfuacqdsun2';
@@ -120,22 +179,29 @@ export default function Call({ sendData }) {
     );
   }
 
-  if (user.name != ' '){
+  else if (user.name != ' '){
     const client = new StreamVideoClient({ apiKey, user, token });
     const call = client.call('default', callId);
+    console.log(call.state.callingState);
 
     if (joinCreate == 'Join'){
-      call.join();
+      call.get();
+      call.join({create: false});
     }else{
+      call.getOrCreate();
       call.join({create: true});
     }
+
+ 
+    
     return (
       <StreamVideo client={client}>
         <StreamCall call={call}>
-          <MyUILayout room={callId}/>
+          <MyUILayout room={callId} call={call}/>
         </StreamCall>
       </StreamVideo>
     );
+    
   }
 
   
@@ -144,7 +210,8 @@ export default function Call({ sendData }) {
 
 export const MyUILayout = (props) => {
     const { useCallCallingState, useLocalParticipant, useRemoteParticipants } = useCallStateHooks();
-    const {room} = props
+    const {room} = props;
+    const {call} = props;
   
     const callingState = useCallCallingState();
    
@@ -165,7 +232,17 @@ export const MyUILayout = (props) => {
         
         await Promise.all(deletePromises); // Wait for all delete operations to complete
         console.log("All messages in the room have been deleted.");
-        window.location.href = "/";
+        const activeCallsRef = collection(db, "activeCalls");
+        const activeCallsq = query(activeCallsRef, where("callId", "==", room));
+        const activeCallsquerySnapshot = await getDocs(activeCallsq);
+    
+        activeCallsquerySnapshot.forEach(async (doc) => {
+          await updateDoc(doc.ref, { isActive: false });
+        });
+    
+        console.log("Call terminated for all participants.");
+        await call.endCall();
+        //window.location.href = "/";
       } catch (error) {
         console.error("Error deleting messages: ", error);
       }
@@ -176,6 +253,24 @@ export const MyUILayout = (props) => {
       //   console.error("Error logging out:", error.message);
       // }
     }
+
+    useEffect(() => {
+      const activeCallsRef = collection(db, "activeCalls");
+      const q = query(activeCallsRef, where("callId", "==", room));
+    
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (!data.isActive) {
+            console.log("Call ended by the host.");
+            window.location.href = "/";
+          }
+        });
+      });
+    
+      return () => unsubscribe(); // Καθαρισμός listener κατά την αποσύνδεση
+    }, [room]);
+    
 
     return (
         
