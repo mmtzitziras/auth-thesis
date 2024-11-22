@@ -8,8 +8,6 @@ function Profile() {
   const [userDetails, setUserDetails] = useState(null);
   const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
-      console.log(user);
-
       const docRef = doc(db, "Users", user.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -45,6 +43,7 @@ function Profile() {
                 {userDetails ? (
                         <>
                         <h1>Welcome!</h1>
+                        <img className="profile-image" src={userDetails.photo} width={"40%"} style={{borderRadius: "50%"}} alt="" />
                         <div>
                             <p>Email: {userDetails.email}</p>
                             <p>Name: {userDetails.name}</p>

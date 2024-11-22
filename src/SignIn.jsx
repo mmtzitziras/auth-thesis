@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { useNavigate, Link, Navigate } from "react-router-dom";
 import { doSignInWithEmailAndPassword, doSignInWithGoogle} from './firebase/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider  } from 'firebase/auth';
 import { useAuth } from './contexts/authContext';
-import { auth } from './firebase/firebase';
+import { auth , db} from './firebase/firebase';
+import { setDoc, doc } from 'firebase/firestore';
 export default function SignIn(){
 
     // const {userLoggedIn} = useAuth();
@@ -24,6 +25,22 @@ export default function SignIn(){
         }
     };
     
+    function googleLogin(){
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).then(async(result) => {
+            const user = result.user;
+            await setDoc(doc(db, "Users", user.uid),{
+                email: user.email,
+                name: user.displayName,
+                token: "",
+                photo: user.photoURL,
+            });
+            console.log(result);
+            if(result.user){
+                window.location.href = '/';
+            }
+        })
+    }
     return(
         <>
             <div className='sign-in-container'>
@@ -57,7 +74,7 @@ export default function SignIn(){
                         />
                     </div>
                     <div className="social">
-                            <div className="go">
+                            <div onClick={googleLogin} className="go">
                                 <i className="fab fa-google" /> 
                             </div>
                             <div className="fb">

@@ -41,7 +41,7 @@ export default function Navbar(){
             
             <div className="navbar-right">
                 <p href="/profile" className="user-icon">{userDetails ? userDetails.name : ' '}</p>
-                <a href="/profile"><img src={accountLogo} alt="account-image" className='user-icon' /></a>
+                <a className='navbar-profile-pic' href="/profile"><img width={"45%"} style={{borderRadius: "50%"}} src={userDetails ? userDetails.photo : accountLogo} alt="account-image" className='user-icon' /></a>
             </div>
         </nav>  
     );

@@ -68,3 +68,9 @@
         display: none; /* Hide the navbar center contents */
     }
   }
+
+
+.navbar-profile-pic{
+  text-align: center;
+  height: auto;
+}

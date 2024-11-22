@@ -26,6 +26,7 @@ export default function SignUp(){
                 email: user.email,
                 name: name,
                 token: token,
+                photo: 'https://getstream.io/random_svg/?id=oliver&name=' + name,
             });
           }
           window.location.href = "/";

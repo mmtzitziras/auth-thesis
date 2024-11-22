@@ -58,14 +58,6 @@ export default function Call({ sendData }) {
 
   const handleJoinCall = async (e) => {
       e.preventDefault();
-      // try {
-      //     setJoinCreate('Join');
-      //     sendData(callId);
-      //     setStartCall(true);
-      // } catch (error) {
-      //     console.log(error.message);
-      // }
-
       try {
         // Αναφορά στο collection activeCalls
         const activeCallsRef = collection(db, "activeCalls");
@@ -91,19 +83,6 @@ export default function Call({ sendData }) {
 
   const handleCreateCall = async (e) => {
     e.preventDefault();
-    // try {
-    //   setJoinCreate('Create');
-    //   sendData(callId);
-    //   const activeCallsRef = collection(db, "activeCalls");
-    //   await addDoc(activeCallsRef, {
-    //   callId,
-    //   isActive: true,
-    //   createdAt: new Date(),
-    // });
-    //   setStartCall(true);
-    // } catch (error) {
-    //     console.log(error.message);
-    // }
     try {
       setJoinCreate("Create");
   
@@ -115,7 +94,7 @@ export default function Call({ sendData }) {
       if (!querySnapshot.empty) {
         
         querySnapshot.forEach(async (doc) => {
-          await updateDoc(doc.ref, { isActive: true, createdAt: new Date() });
+          await updateDoc(doc.ref, { isActive: true, createdAt: new Date(), admin: userDetails.name, });
         });
         console.log("Room reactivated.");
       } else {
@@ -124,6 +103,7 @@ export default function Call({ sendData }) {
           callId,
           isActive: true,
           createdAt: new Date(),
+          admin: userDetails.name,
         });
         console.log("Room created.");
       }
@@ -197,7 +177,7 @@ export default function Call({ sendData }) {
     return (
       <StreamVideo client={client}>
         <StreamCall call={call}>
-          <MyUILayout room={callId} call={call}/>
+          <MyUILayout room={callId} call={call} currentUser={userDetails.name}/>
         </StreamCall>
       </StreamVideo>
     );
@@ -212,52 +192,58 @@ export const MyUILayout = (props) => {
     const { useCallCallingState, useLocalParticipant, useRemoteParticipants } = useCallStateHooks();
     const {room} = props;
     const {call} = props;
-  
-    const callingState = useCallCallingState();
+    const {currentUser} = props;
+
+    async function handleLeave() {
+      await call.leave();
+    }
    
-    // if (callingState !== CallingState.JOINED) {
-    //   return <a className="pulsingButton" href="/">GO BACK</a>;
-      
-    // }
     async function handleEnd() {
       try {
-        const messagesRef = collection(db, "messages"); // Replace 'messages' with your collection name
+        const messagesRef = collection(db, "messages");
         const q = query(messagesRef, where("room", "==", room));
         const querySnapshot = await getDocs(q);
     
         const deletePromises = [];
         querySnapshot.forEach((doc) => {
-          deletePromises.push(deleteDoc(doc.ref)); // Add delete operation to the promises array
+          deletePromises.push(deleteDoc(doc.ref));
         });
         
-        await Promise.all(deletePromises); // Wait for all delete operations to complete
+        await Promise.all(deletePromises);
         console.log("All messages in the room have been deleted.");
         const activeCallsRef = collection(db, "activeCalls");
         const activeCallsq = query(activeCallsRef, where("callId", "==", room));
         const activeCallsquerySnapshot = await getDocs(activeCallsq);
-    
-        activeCallsquerySnapshot.forEach(async (doc) => {
-          await updateDoc(doc.ref, { isActive: false });
+
+
+        let isAdmin = false;
+        activeCallsquerySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.admin === currentUser) {
+            isAdmin = true;
+          }
         });
-    
-        console.log("Call terminated for all participants.");
-        await call.endCall();
-        //window.location.href = "/";
+
+        if (isAdmin) {
+          // Αν ο χρήστης είναι admin, τερματίζει το call
+          activeCallsquerySnapshot.forEach(async (doc) => {
+            await updateDoc(doc.ref, { isActive: false });
+          });
+          console.log("Call terminated by admin.");
+          await call.endCall(); // Τερματισμός της κλήσης
+        } else {
+          console.log("User is not admin. Leaving the call.");
+          await call.leave();
+          window.location.href = "/";
+        }
       } catch (error) {
         console.error("Error deleting messages: ", error);
       }
-      // try {
-      //   window.location.href = "/";
-      //   console.log("User logged out successfully!");
-      // } catch (error) {
-      //   console.error("Error logging out:", error.message);
-      // }
     }
 
     useEffect(() => {
       const activeCallsRef = collection(db, "activeCalls");
       const q = query(activeCallsRef, where("callId", "==", room));
-    
       const unsubscribe = onSnapshot(q, (snapshot) => {
         snapshot.forEach((doc) => {
           const data = doc.data();
@@ -283,9 +269,8 @@ export const MyUILayout = (props) => {
               <ToggleVideoPublishingButton />
               <ScreenShareButton></ScreenShareButton>
               <RecordCallButton></RecordCallButton>
-              <CancelCallConfirmButton onClick={handleEnd}></CancelCallConfirmButton>
+              <CancelCallButton onClick={handleEnd}></CancelCallButton>
             </div>
-            
         </StreamTheme>
        
       
