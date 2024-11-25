@@ -123,7 +123,7 @@ export default function Call({ sendData }) {
   const user = {
     id: userDetails ? userDetails.name : ' ',
     name: userDetails ? userDetails.name : ' ',
-    image: 'https://getstream.io/random_svg/?id=oliver&name=' + {name},
+    image: userDetails ? userDetails.photo : 'https://getstream.io/random_svg/?id=oliver&name=' + {name},
   };
 
   const token = userDetails ? userDetails.token : ' ';

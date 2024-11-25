@@ -115,6 +115,7 @@
   text-align: center;
   color: whitesmoke;
   border-bottom: 2px solid whitesmoke;
+  overflow-wrap: break-word;
   
 }
 

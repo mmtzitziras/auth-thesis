@@ -72,5 +72,6 @@
 
 .navbar-profile-pic{
   text-align: center;
-  height: auto;
+  height: 80%;
+  width: 110px;
 }

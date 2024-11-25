@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { useNavigate, Link, Navigate } from "react-router-dom";
-import { doCreateUserWithEmailPassword } from './firebase/auth';
-import { useAuth } from './contexts/authContext';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {Link } from "react-router-dom";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth, db } from './firebase/firebase';
-import { setDoc, doc } from 'firebase/firestore';
+import { getDoc, setDoc, doc } from 'firebase/firestore';
 
 
 export default function SignUp(){
@@ -13,19 +11,17 @@ export default function SignUp(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [token, setToken] = useState("");
 
     const handleRegister= async(e)=>{
         e.preventDefault();
         try {
           await createUserWithEmailAndPassword(auth, email, password);
           const user = auth.currentUser;
-          console.log(user)
           if (user){
             await setDoc(doc(db, "Users", user.uid),{
                 email: user.email,
-                name: name,
-                token: token,
+                name: name.replace(/\s+/g, "_"),
+                token: "",
                 photo: 'https://getstream.io/random_svg/?id=oliver&name=' + name,
             });
           }
@@ -35,6 +31,70 @@ export default function SignUp(){
             console.log(error.message);
         }
 
+    }
+
+    function facebookLogin(){
+        const provider = new FacebookAuthProvider();
+        signInWithPopup(auth, provider).then(async(result) => {
+            const user = result.user;
+            const credential = FacebookAuthProvider.credentialFromResult(result);
+            const accessToken = credential.accessToken;
+            const userRef = doc(db, "Users", user.uid);
+            try {
+                const docSnap = await getDoc(userRef);
+          
+                if (!docSnap.exists()) {
+                  // If user doesn't exist, create a new document
+                  await setDoc(userRef, {
+                    email: user.email,
+                    name: user.displayName.replace(/\s+/g, "_"), // Replace spaces with underscores
+                    token: "",
+                    photo: 'https://getstream.io/random_svg/?id=oliver&name=' + user.displayName.replace(/\s+/g, "_"),
+                  });
+                  console.log("New user created in Firestore.");
+                } else {
+                  console.log("User already exists in Firestore.");
+                }
+          
+                // Redirect the user
+                if (result.user) {
+                  window.location.href = "/";
+                }
+              } catch (error) {
+                console.error("Error checking/creating user in Firestore:", error.message);
+              }
+        })
+    }
+    
+    function googleLogin(){
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).then(async(result) => {
+            const user = result.user;
+            const userRef = doc(db, "Users", user.uid);
+            try {
+                const docSnap = await getDoc(userRef);
+          
+                if (!docSnap.exists()) {
+                  // If user doesn't exist, create a new document
+                  await setDoc(userRef, {
+                    email: user.email,
+                    name: user.displayName.replace(/\s+/g, "_"), // Replace spaces with underscores
+                    token: "",
+                    photo: user.photoURL,
+                  });
+                  console.log("New user created in Firestore.");
+                } else {
+                  console.log("User already exists in Firestore.");
+                }
+          
+                // Redirect the user
+                if (result.user) {
+                  window.location.href = "/";
+                }
+              } catch (error) {
+                console.error("Error checking/creating user in Firestore:", error.message);
+              }
+        })
     }
 
     return(
@@ -77,20 +137,19 @@ export default function SignUp(){
                         required
                         />
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <label>Token <a href="/token" target='_blank'>?</a></label>
                         <input
                         type="text"
                         className='sign-input'
                         onChange={(e) => setToken(e.target.value)}
-                        required
                         />
-                    </div>
+                    </div> */}
                     <div className="social">
-                        <div className="go">
+                        <div onClick={googleLogin} className="go">
                             <i className="fab fa-google" /> 
                         </div>
-                        <div className="fb">
+                        <div onClick={facebookLogin} className="fb">
                             <i className="fab fa-facebook" />
                         </div>
                     </div>
