@@ -14,10 +14,7 @@ export default function LandingPage() {
         </div>
         <div className="landing-page-container">
              <a className="pulsingButton" href="/meeting">START</a>
-            
         </div>
-        
-        
       </div>
     
   )

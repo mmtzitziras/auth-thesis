@@ -1,3 +1,4 @@
+/* Define CSS custom variables for theming throughout the app */
 :root {
   --secondary-color: #042c62;
   --dark-backround: #010b19;
@@ -6,6 +7,7 @@
   --deep-color: #03214a;
 }
 
+/* Reset margins, paddings, and box model for all elements */
 *,
 *:before,
 *:after{
@@ -14,16 +16,19 @@
     box-sizing: border-box;
 }
 
+/* Default body styling */
 body{
   background-color: white;
 }
 
+/* Main app container styling */
 .app{
   height: auto;
   overflow: hidden;
   background-color: var(--main-color);
 }
 
+/* Styles for containers holding sign-up or sign-in forms */
 div:has(.sign-up-container),
 div:has(.sign-in-container){
 
@@ -37,11 +42,13 @@ div:has(.sign-in-container){
     overflow: auto;
 }
 
+/* Styles for meeting container section */
 div:has(.meeting-container){
   background-color: var(--dark-backround);
   overflow: auto;
 }
 
+/* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 20px;
 }
@@ -58,8 +65,6 @@ div:has(.meeting-container){
   background-color: var(--dark-backround);
   border-radius: 20px;
 }
-
-
 
 ::-webkit-scrollbar-thumb {
   background-color: black;

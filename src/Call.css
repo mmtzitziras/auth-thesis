@@ -1,3 +1,4 @@
+/* Ensures that the body and HTML elements adapt to video call components */
 body:has(.str-video),
 html:has(.str-video) {
   height: 100%;
@@ -6,6 +7,7 @@ html:has(.str-video) {
   font-family: sans-serif;
 }
 
+/* Base styles for the video call container */
 .str-video {
   
   color: #ffffff;
@@ -16,13 +18,15 @@ html:has(.str-video) {
   
 }
 
+/* Responsive styles for smaller screens */
 @media (max-width: 750px) {
     .str-video {
       width: 100%;
       height: 70vh;
     }
   }
-  
+
+/* Styles for the call controls section */
 .str-video__call-controls{
     display: flex;
     flex-wrap: wrap;

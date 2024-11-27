@@ -1,3 +1,4 @@
+/* Profile form container */
 .profile-form{
     height: auto;
     width: auto;
@@ -17,6 +18,7 @@
     justify-content: center;
 }
 
+/* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .profile-form {
         width: 370px;
@@ -26,6 +28,7 @@
     
 }
 
+/* General styles for all elements inside the form */
 .profile-form *{
     font-family: 'Poppins',sans-serif;
     color: #ffffff;
@@ -36,7 +39,7 @@
 }
 
 
-
+/* Form heading styling */
 .profile-form h1{
     font-size: 32px;
     font-weight: 500;
@@ -44,6 +47,7 @@
     text-align: center;
 }
 
+/* Sign-out and main menu button styles */
 .sign-out-btn,
 .main-menu-btn
 {
@@ -57,7 +61,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: 0.25s;
-  
+    
+    /* Hover and focus states for buttons */
     &:hover,
     &:focus { 
     color: #fff;
@@ -65,6 +70,7 @@
   }
 }
 
+/* Link styles within the main menu button */
 .main-menu-btn > *{
     color: #080710;
     text-decoration: none;
@@ -74,6 +80,7 @@
   }
 }
 
+/* Profile image styling */
 .profile-image{
     margin: auto;
     height: auto;

@@ -1,3 +1,4 @@
+/* Main chat application container */
 .chat-app{
   width: 20%;
   margin: 1rem;
@@ -13,6 +14,7 @@
   min-width: 200px;
 }
 
+/* Responsive styling for smaller screens */
 @media (max-width: 750px) {
   .chat-app {
     width: 100%;
@@ -22,6 +24,7 @@
   }
 }
 
+/* Messages container */
 .messages{
   display: flex;
   flex-direction: column;
@@ -35,6 +38,7 @@
   border-radius: 10px;
 }
 
+/* Individual message styling */
 .messages > div  {
   background-color: var(--main-color);
   width: fit-content;
@@ -56,6 +60,7 @@
   flex-direction: column;
 }
 
+/* Timestamp styling */
 .timestamp{
   font-size: calc(.5rem + .2vw + .2vh);
   color: grey;
@@ -63,15 +68,19 @@
   margin-left: 1em;
 }
 
+/* User name styling */
 .user{
   color: gray;
   text-align: start;
 }
 
+/* Message text styling */
 .message{
   margin-top: 10px;
 }
 
+
+/* Input area for typing messages */
 .input-area{
   height: 7%;
   display: flex;
@@ -85,6 +94,7 @@
 
 }
 
+/* Input field styling */
 .input-area > input {
   height: 100%;
   width: 70%;
@@ -96,11 +106,13 @@
   color: white;
 }
 
+/* Focus state for the input field */
 .input-area > input:focus{
   border: none;
   outline: none;
 }
 
+/* Send button styling */
 .input-area > button {
   height: 100%;
   width: 30%;
@@ -110,6 +122,7 @@
   
 }
 
+/* Header styling for the chat */
 .chat-header{
   margin: .8em;
   text-align: center;
@@ -119,6 +132,8 @@
   
 }
 
+
+/* Placeholder for scrolling to the bottom */
 .scroll-down{
   height: 0;
   width: 0;

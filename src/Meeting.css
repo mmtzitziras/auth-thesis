@@ -1,3 +1,4 @@
+/* Main body container for the meeting page */
 .main-body{
     padding: 10px;
     display: flex;
@@ -6,7 +7,7 @@
     height: calc(100vh - 70px);
     overflow: hidden;
    }
-  
+  /* Responsive styling for smaller screens */
   @media (max-width: 750px) {
     .main-body {
       flex-direction: column;
@@ -14,6 +15,7 @@
     }
 }
 
+/* Video call container */
 .video-call{
   margin: 20px;
   border-radius: 10px;
@@ -26,11 +28,13 @@
   padding: 20px;
 }
 
+/* Video container within the video call section */
 .video-call > .video {
 width: 100%;
 height: 100%;
 }
 
+/* Controls container for the video call */
 .controls {
 display: flex;
 position: absolute;
@@ -44,6 +48,7 @@ align-items: center;
 
 }
 
+/* Styling for control buttons */
 .controls button {
 margin-right: 5px;
 height: 70%;
@@ -51,10 +56,12 @@ background: none;
 border: none;
 }
 
+/* Hover effect for control buttons */
 .controls button:hover{
 transform: translateY(-5px);
 }
 
+/* Responsive styling for video call section */
 @media (max-width: 750px) {
 .video-call {
   width: 100%;

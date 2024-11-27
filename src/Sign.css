@@ -1,3 +1,4 @@
+/* Main form container for sign-in/sign-up */
 .sign-form{
     height: auto;
     width: auto;
@@ -16,6 +17,7 @@
     
 }
 
+/* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .sign-form {
         width: 95%;
@@ -24,6 +26,7 @@
     
 }
 
+/* General styles for all elements inside the form */
 .sign-form *{
     font-family: 'Poppins',sans-serif;
     color: #ffffff;
@@ -32,7 +35,7 @@
     border: none;
 }
 
-
+/* Form heading */
 .sign-form h3{
     font-size: 32px;
     font-weight: 500;
@@ -40,12 +43,15 @@
     text-align: center;
 }
 
+/* Label styling */
 label{
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
+
+/* Input fields */
 .sign-input{
     display: block;
     height: 50px;
@@ -57,9 +63,13 @@ label{
     font-size: 14px;
     font-weight: 300;
 }
+
+/* Placeholder text styling */
 .sign-input::placeholder{
     color: #e5e5e5;
 }
+
+/* Sign-in and register button styling */
 .sign-in-btn,
 .register-btn{
     margin-top: 50px;
@@ -72,7 +82,8 @@ label{
     border-radius: 5px;
     cursor: pointer;
     transition: 0.25s;
-  
+
+    /* Hover and focus states for buttons */
     &:hover,
     &:focus { 
     color: #fff;
@@ -80,11 +91,14 @@ label{
   }
 }
 
+/* Social login section */
 .social{
     margin-top: 30px;
     display: flex;
     align-items: center;
 }
+
+/* Individual social login buttons */
 .social div{
     
     width: 150px;
@@ -95,12 +109,14 @@ label{
     text-align: center;
     
 }
+
+/* Hover state for social login buttons */
 .social div:hover{
     background-color: rgba(255,255,255,0.47);
     
 }
 
-
+/* Facebook login button */
 .social .fb{
     margin-left: 25px;
     
@@ -109,6 +125,7 @@ label{
     }
 }
 
+/* Google login button */
 .social .go{
     
     &:hover{
@@ -121,14 +138,14 @@ label{
     
 }
 
-
+/* Already have an account text */
 .already{
     margin-top: 30px;
 }
 
 
 
-
+/* Decorative lines for aesthetic */
 .lines {
     position: absolute;
     top: 0;

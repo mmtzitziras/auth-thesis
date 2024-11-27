@@ -1,3 +1,4 @@
+/* Container for the landing page */
 .landing-page-container{
     height: calc(100vh - 70px);
     background-color: var(--dark-backround);
@@ -5,6 +6,8 @@
     overflow: hidden;
 }
 
+
+/* Styling for decorative lines */
 .landing-page-container .line {
     top: 70px;
     height: calc(100vh - 70px);
@@ -12,6 +15,7 @@
     pointer-events: none;
 }
 
+/* Pulsing button styling */
 .pulsingButton {
     
     max-width: 200px;
@@ -40,7 +44,7 @@
   
   }
   
-  
+  /* Stops the pulsing animation on hover */
   .pulsingButton:hover {
     -webkit-animation: none;
     -moz-animation: none;
@@ -49,7 +53,7 @@
     color: #ffffff;
   }
   
-  
+  /* Keyframes for pulsing animation (for modern browsers) */
   @-webkit-keyframes pulsing {
     to {
       box-shadow: 0 0 0 30px rgba(232, 76, 61, 0);

@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import { auth, db } from './firebase/firebase';
 import { getDoc, doc, addDoc, onSnapshot, updateDoc } from 'firebase/firestore';
-import { collection, query, where, getDocs, deleteDoc, getFirestore } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { 
   CallingState, 
   StreamTheme, 
@@ -12,9 +12,8 @@ import {
   StreamVideoClient, 
   useCallStateHooks,
   ParticipantView,
-  CallControls,
   SpeakerLayout,
-  CancelCallConfirmButton,} from '@stream-io/video-react-sdk';
+  } from '@stream-io/video-react-sdk'; // Video call SDK components.
 
   import {
     CancelCallButton,
@@ -23,19 +22,20 @@ import {
     ToggleVideoPublishingButton,
     ScreenShareButton,
     RecordCallButton,
-  } from '@stream-io/video-react-sdk';
+  } from '@stream-io/video-react-sdk'; // Video call SDK components.
 
-import '@stream-io/video-react-sdk/dist/css/styles.css';
-import './Call.css'
-import { Navigate, redirect, useHref } from 'react-router-dom';
+import '@stream-io/video-react-sdk/dist/css/styles.css'; // Styles for the video SDK.
+import './Call.css' // Styles specific to the Call component.
 
 
 export default function Call({ sendData }) {
-  const [call, setCall] = useState (undefined);
-  const [userDetails, setUserDetails] = useState(null);
-  const [callId, setCallId] = useState("");
-  const [joinCreate, setJoinCreate] = useState(" ");
-  const [startCall, setStartCall] = useState(false);
+  
+  const [userDetails, setUserDetails] = useState(null); // State for storing authenticated user details.
+  const [callId, setCallId] = useState(""); // State to store the current call ID.
+  const [joinCreate, setJoinCreate] = useState(" "); // Indicates if the user is joining or creating a call.
+  const [startCall, setStartCall] = useState(false); // Indicates if the call is started.
+  
+  // Fetch user details from Firestore
   const fetchUserData = async () => {
         auth.onAuthStateChanged(async (user) => {
             console.log(user);
@@ -53,25 +53,24 @@ export default function Call({ sendData }) {
         fetchUserData();
     }, []);
 
-
   
-
+  // Handle joining an existing call
   const handleJoinCall = async (e) => {
       e.preventDefault();
       try {
-        // Αναφορά στο collection activeCalls
+        
         const activeCallsRef = collection(db, "activeCalls");
         const q = query(activeCallsRef, where("callId", "==", callId), where("isActive", "==", true));
         const querySnapshot = await getDocs(q);
     
-        // Έλεγχος αν υπάρχει το call
+        // Check if the call already exists.
         if (querySnapshot.empty) {
           alert("The call does not exist or is no longer active. Please try again.");
-          setCallId(""); // Καθαρισμός του πεδίου εισαγωγής
+          setCallId(""); // Clear the input field.
           return;
         }
     
-        // Αν το call είναι ενεργό, ξεκινά η διαδικασία join
+        
         setJoinCreate("Join");
         sendData(callId);
         setStartCall(true);
@@ -81,6 +80,8 @@ export default function Call({ sendData }) {
       }
   };
 
+
+  // Handle creating a new call
   const handleCreateCall = async (e) => {
     e.preventDefault();
     try {
@@ -116,7 +117,7 @@ export default function Call({ sendData }) {
     }
 };
 
- 
+  // Stream Video client configuration
   const apiKey = 'gznn9kyeap2y';
   const apiSecret = 'v67xefarvsw8dwh2w6gmxnrtwdzmfrgpqjpk6chhw4hznmabff8aynfuacqdsun2';
  
@@ -128,6 +129,8 @@ export default function Call({ sendData }) {
 
   const token = userDetails ? userDetails.token : ' ';
 
+  // Conditional rendering based on whether the call has started
+  // If the call isn't started the a form is rendered for the user to join or create a call.
   if (startCall == false){
     return(
       <div>    
@@ -173,7 +176,7 @@ export default function Call({ sendData }) {
     }
 
  
-    
+    // All call components.
     return (
       <StreamVideo client={client}>
         <StreamCall call={call}>
@@ -188,16 +191,16 @@ export default function Call({ sendData }) {
   
 }
 
+// Layout for the call interface
 export const MyUILayout = (props) => {
-    const { useCallCallingState, useLocalParticipant, useRemoteParticipants } = useCallStateHooks();
     const {room} = props;
     const {call} = props;
     const {currentUser} = props;
 
-    async function handleLeave() {
-      await call.leave();
-    }
-   
+
+    // End the call and handle cleanup.
+    // If the user is admin then the call is terminated for all.
+    // If the user is not the admin, then he/she leaves.
     async function handleEnd() {
       try {
         const messagesRef = collection(db, "messages");
@@ -225,12 +228,11 @@ export const MyUILayout = (props) => {
         });
 
         if (isAdmin) {
-          // Αν ο χρήστης είναι admin, τερματίζει το call
           activeCallsquerySnapshot.forEach(async (doc) => {
             await updateDoc(doc.ref, { isActive: false });
           });
           console.log("Call terminated by admin.");
-          await call.endCall(); // Τερματισμός της κλήσης
+          await call.endCall();
         } else {
           console.log("User is not admin. Leaving the call.");
           await call.leave();
@@ -254,7 +256,7 @@ export const MyUILayout = (props) => {
         });
       });
     
-      return () => unsubscribe(); // Καθαρισμός listener κατά την αποσύνδεση
+      return () => unsubscribe();
     }, [room]);
     
 
@@ -277,6 +279,7 @@ export const MyUILayout = (props) => {
     );
 };
 
+// This component renders a list of participants in the call.
 export const MyParticipantList = ({ participants }) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
@@ -288,7 +291,7 @@ export const MyParticipantList = ({ participants }) => {
   };
 
 
-
+// This component displays the local participant in a floating view, for self-view during a video call.
 export const MyFloatingLocalParticipant = ({ participant }) => {
     return (
       <div

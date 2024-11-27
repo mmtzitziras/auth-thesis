@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { auth, db } from './firebase/firebase';
-import { getDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
-import { useNavigate, Link, Navigate } from "react-router-dom";
-import './Profile.css'
-import { text } from "@fortawesome/fontawesome-svg-core";
+import React, { useEffect, useState } from "react"; // React and hooks for state management and effects.
+import { auth, db } from './firebase/firebase'; // Firebase authentication and Firestore database.
+import { getDoc, doc, updateDoc } from 'firebase/firestore'; // Firestore functions for managing documents.
+import { Link } from "react-router-dom"; // Navigation utilities from React Router.
+import './Profile.css'; // Styles specific to the Profile component.
+
+
+
 
 function Profile() {
+  // States to store user details and token
   const [userDetails, setUserDetails] = useState(null);
   const [token, setToken] = useState("");
+
+  // Function to fetch user data from Firestore
   const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
       const docRef = doc(db, "Users", user.uid);
@@ -20,10 +25,12 @@ function Profile() {
       }
     });
   };
+  // Fetch user data when the component mounts
   useEffect(() => {
     fetchUserData();
   }, []);
 
+  // Logout function
   async function handleLogout() {
     try {
       await auth.signOut();
@@ -36,11 +43,13 @@ function Profile() {
   return (
     <>
         <div className='sign-in-container'>
+          {/* Decorative lines */}
             <div className="lines">
                 <div className="line"></div>
                 <div className="line"></div>
                 <div className="line"></div>
             </div>
+            {/* Profile form */}
             <div className="profile-form">
                 {userDetails ? (
                         <>
@@ -49,16 +58,18 @@ function Profile() {
                         <div>
                             <p>Email: {userDetails.email}</p>
                             <p>Name: {userDetails.name}</p>
+                            {/* Display token */}
+                            {/* If token is already set */}
                             {userDetails.token && userDetails.token.trim() !== "" ? (
                             <p style={{color:"green", textAlign:"center", marginTop: "20px"}}>Token is set! <a
                             href="#"
                             onClick={async (e) => {
-                              e.preventDefault(); // Prevent the default link behavior
+                              e.preventDefault();
                               try {
-                                const user = auth.currentUser; // Get the current user
+                                const user = auth.currentUser;
                                 if (user) {
-                                  await updateDoc(doc(db, "Users", user.uid), { token: "" }); // Update the token to an empty string
-                                  window.location.reload(); // Optionally reload the page or reset the state
+                                  await updateDoc(doc(db, "Users", user.uid), { token: "" });
+                                  window.location.reload(); 
                                 }
                               } catch (error) {
                                 console.error("Error deleting token:", error.message);
@@ -73,9 +84,8 @@ function Profile() {
                           >
                             Delete!
                           </a></p>
-                            
+                          /* If token is not set */
                           ) : (
-                            // If the token is empty, show the form
                             <form
                               onSubmit={ async(e) => {
                                 e.preventDefault();
@@ -134,7 +144,7 @@ function Profile() {
                         </div>
                         </>
                     ) : (
-                        <p>Loading...</p>
+                        <p>Loading...</p> // Show loading state while fetching user data
                     )}
             </div>
                 
