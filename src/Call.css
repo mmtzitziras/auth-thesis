@@ -33,3 +33,29 @@ html:has(.str-video) {
 }
 
 
+.invite-button {
+  background-color: #4caf50; /* Light green background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 50%; /* Make the button circular */
+  width: 40px; /* Set width */
+  display: flex; /* Center content */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add slight shadow */
+  font-size: 18px; /* Adjust font size */
+  transition: background-color 0.2s ease; /* Smooth color transition */
+}
+
+.invite-button:hover {
+  background-color: #7cb87f; /* Slightly lighter green on hover */
+}
+
+.invite-button:active {
+  background-color: #388e3c; /* Darker green on click */
+}
+
+.invite-button:focus {
+  outline: none; /* Remove focus outline */
+}

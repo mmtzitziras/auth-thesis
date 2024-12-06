@@ -48,7 +48,7 @@ function Profile() {
                 <div className="line"></div>
                 <div className="line"></div>
                 <div className="line"></div>
-            </div>
+          </div>
             {/* Profile form */}
             <div className="profile-form">
                 {userDetails ? (
@@ -140,6 +140,9 @@ function Profile() {
                             </button>
                             <button className="btn main-menu-btn">
                                 <Link to="/main-page">Main Menu</Link>
+                            </button>
+                            <button className="btn main-menu-btn">
+                                <Link to="/recordings">Recordings</Link>
                             </button>
                         </div>
                         </>

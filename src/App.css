@@ -18,14 +18,14 @@
 
 /* Default body styling */
 body{
-  background-color: white;
+  background-color: var(--dark-backround);
 }
 
 /* Main app container styling */
 .app{
   height: auto;
   overflow: hidden;
-  background-color: var(--main-color);
+  background-color: var(--dark-backround);
 }
 
 /* Styles for containers holding sign-up or sign-in forms */
@@ -42,6 +42,15 @@ div:has(.sign-in-container){
     overflow: auto;
 }
 
+div:has(.recordings-decoration){
+  background-color: var(--dark-backround);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    position: relative;
+    overflow: auto;
+}
 /* Styles for meeting container section */
 div:has(.meeting-container){
   background-color: var(--dark-backround);

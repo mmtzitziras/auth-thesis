@@ -89,10 +89,6 @@ export default function Chat(props){
     if (user.name != " "){
       return (
         <div className="chat-app">
-          {/* Chat header displaying the room name */}
-          <div className="chat-header">
-            <h1>Room: {room}</h1>
-          </div>
           {/* Messages section */}
           <div className='messages'>{messages.map((message) => 
             <div className="message-container" key={message.id}>

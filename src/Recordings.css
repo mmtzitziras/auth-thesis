@@ -1,0 +1,39 @@
+.recordings-container{
+    background-color: var(--dark-backround);
+    background-image: linear-gradient( var(--dark-backround), var(--main-color));  
+    height: auto; 
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.recordings-list{
+    display: flex;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .recordings-container {
+        width: 370px;
+        
+    }
+}
+
+/* General styles for all elements inside the form */
+.recordings-container *{
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+    margin: 10px;
+}
+
+
+/* Form heading styling */
+.recordings-container h1{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}

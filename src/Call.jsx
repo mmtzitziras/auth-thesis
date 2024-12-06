@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { auth, db } from './firebase/firebase';
+import LoadRecordings from './LoadRecordings';
+import { toast } from "react-toastify";
 import { getDoc, doc, addDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { 
@@ -12,7 +14,7 @@ import {
   StreamVideoClient, 
   useCallStateHooks,
   ParticipantView,
-  SpeakerLayout,
+  SpeakerLayout, 
   } from '@stream-io/video-react-sdk'; // Video call SDK components.
 
   import {
@@ -31,6 +33,7 @@ import './Call.css' // Styles specific to the Call component.
 export default function Call({ sendData }) {
   
   const [userDetails, setUserDetails] = useState(null); // State for storing authenticated user details.
+  const [callName, setCallName] = useState(""); // State to store the current call Name.
   const [callId, setCallId] = useState(""); // State to store the current call ID.
   const [joinCreate, setJoinCreate] = useState(" "); // Indicates if the user is joining or creating a call.
   const [startCall, setStartCall] = useState(false); // Indicates if the call is started.
@@ -54,25 +57,35 @@ export default function Call({ sendData }) {
     }, []);
 
   
+    const generateUniqueId = (callName) => {
+      // Get the current timestamp in milliseconds
+      const timestamp = Date.now().toString(36); // Convert to base-36 for compactness
+    
+      // Take the last 7 characters of the timestamp and append it to the call name
+      return `${callName}-${timestamp.substring(timestamp.length - 7)}`;
+    };
+
+
   // Handle joining an existing call
   const handleJoinCall = async (e) => {
       e.preventDefault();
       try {
         
+        setCallId(callName);
         const activeCallsRef = collection(db, "activeCalls");
-        const q = query(activeCallsRef, where("callId", "==", callId), where("isActive", "==", true));
+        const q = query(activeCallsRef, where("callId", "==", callName), where("isActive", "==", true));
         const querySnapshot = await getDocs(q);
     
         // Check if the call already exists.
         if (querySnapshot.empty) {
           alert("The call does not exist or is no longer active. Please try again.");
-          setCallId(""); // Clear the input field.
+          setCallName(""); // Clear the input field.
           return;
         }
     
         
         setJoinCreate("Join");
-        sendData(callId);
+        sendData(callName);
         setStartCall(true);
       } catch (error) {
         console.error("Error joining the call:", error.message);
@@ -91,7 +104,6 @@ export default function Call({ sendData }) {
       const activeCallsRef = collection(db, "activeCalls");
       const q = query(activeCallsRef, where("callId", "==", callId));
       const querySnapshot = await getDocs(q);
-  
       if (!querySnapshot.empty) {
         
         querySnapshot.forEach(async (doc) => {
@@ -102,6 +114,7 @@ export default function Call({ sendData }) {
        
         await addDoc(activeCallsRef, {
           callId,
+          callName,
           isActive: true,
           createdAt: new Date(),
           admin: userDetails.name,
@@ -129,6 +142,8 @@ export default function Call({ sendData }) {
 
   const token = userDetails ? userDetails.token : ' ';
 
+
+
   // Conditional rendering based on whether the call has started
   // If the call isn't started the a form is rendered for the user to join or create a call.
   if (startCall == false){
@@ -137,13 +152,17 @@ export default function Call({ sendData }) {
         <form  className='sign-form call-id-form'>
           <h3>Join or Create Call!</h3>        
           <div className="mb-3">
-            <label>Call ID</label>
+            <label>Call Name</label>
             <input
             type="text"
             className='sign-input'
-            placeholder="Enter call id"
-            value={callId}
-            onChange={(e) => setCallId(e.target.value)}
+            placeholder="Enter call name"
+            value={callName}
+            onChange={(e) =>{ 
+              setCallName(e.target.value)
+              const uniqueId = generateUniqueId(e.target.value);
+              setCallId(uniqueId);
+            }}
             />
           </div>
           <div className="d-grid">
@@ -165,6 +184,7 @@ export default function Call({ sendData }) {
   else if (user.name != ' '){
     const client = new StreamVideoClient({ apiKey, user, token });
     const call = client.call('default', callId);
+    console.log(call);
     console.log(call.state.callingState);
 
     if (joinCreate == 'Join'){
@@ -178,11 +198,13 @@ export default function Call({ sendData }) {
  
     // All call components.
     return (
+      <>
       <StreamVideo client={client}>
         <StreamCall call={call}>
           <MyUILayout room={callId} call={call} currentUser={userDetails.name}/>
         </StreamCall>
       </StreamVideo>
+      </>
     );
     
   }
@@ -196,7 +218,26 @@ export const MyUILayout = (props) => {
     const {room} = props;
     const {call} = props;
     const {currentUser} = props;
+    const { useIsCallRecordingInProgress } = useCallStateHooks();
+    const isCallRecordingInProgress = useIsCallRecordingInProgress();
 
+
+
+    const handleCopyToClipboard = () => {
+      if (room) {
+        navigator.clipboard.writeText(room).then(
+          () => {
+            toast.success("Call ID copied to clipboard!");
+          },
+          (err) => {
+            toast.error("Failed to copy call ID");
+            console.error(err);
+          }
+        );
+      } else {
+        toast.error("No Call ID to copy!");
+      }
+    };
 
     // End the call and handle cleanup.
     // If the user is admin then the call is terminated for all.
@@ -215,8 +256,8 @@ export const MyUILayout = (props) => {
         await Promise.all(deletePromises);
         console.log("All messages in the room have been deleted.");
         const activeCallsRef = collection(db, "activeCalls");
-        const activeCallsq = query(activeCallsRef, where("callId", "==", room));
-        const activeCallsquerySnapshot = await getDocs(activeCallsq);
+        const activeCalls = query(activeCallsRef, where("callId", "==", room));
+        const activeCallsquerySnapshot = await getDocs(activeCalls);
 
 
         let isAdmin = false;
@@ -232,6 +273,7 @@ export const MyUILayout = (props) => {
             await updateDoc(doc.ref, { isActive: false });
           });
           console.log("Call terminated by admin.");
+          await call.deleteRecording();
           await call.endCall();
         } else {
           console.log("User is not admin. Leaving the call.");
@@ -260,22 +302,56 @@ export const MyUILayout = (props) => {
     }, [room]);
     
 
+    const toggleRecording = async () => {
+      try {
+        if (isCallRecordingInProgress) {
+          await call.stopRecording();
+          console.log("Recording stopped.");
+        } else {
+          await call.startRecording();
+          console.log("Recording started.");
+        }
+      } catch (error) {
+        console.error("Error toggling recording:", error);
+      }
+    };
+
+    const handleRecordingClick = async () => {
+      try {
+        const isRecording = call.state.isRecording;
+  
+        if (isRecording) {
+          await call.stopRecording();
+          console.log("Recording stopped.");
+        } else {
+          await call.startRecording();
+          console.log("Recording started.");
+        }
+      } catch (error) {
+        console.error("Error toggling recording:", error);
+      }
+    };
+  
+
     return (
-        
+      <>
         <StreamTheme>
             <SpeakerLayout participantsBarPosition='bottom' />
             <div className="str-video__call-controls">
+            <button className='invite-button' onClick={handleCopyToClipboard} disabled={!room}>
+              +
+            </button> 
               <SpeakingWhileMutedNotification>
               <ToggleAudioPublishingButton />
               </SpeakingWhileMutedNotification>
               <ToggleVideoPublishingButton />
               <ScreenShareButton></ScreenShareButton>
               <RecordCallButton></RecordCallButton>
+              <LoadRecordings call={call} />
               <CancelCallButton onClick={handleEnd}></CancelCallButton>
             </div>
         </StreamTheme>
-       
-      
+      </>
     );
 };
 
