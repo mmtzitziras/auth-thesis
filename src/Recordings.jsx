@@ -106,7 +106,7 @@ const Recordings = () => {
         {!loading && !error && Object.keys(groupedRecordings).length > 0 ? (
           Object.entries(groupedRecordings).map(([callId, recordings]) => (
             <div key={callId} className="call-recordings-group">
-              <h3>Call ID: {callId}</h3>
+              <h3>Call ID: {callId.slice(0, -8)}</h3>
               <ul className="recordings-list">
                 {recordings.map((rec, index) => (
                   <li key={index} className="recording-item">

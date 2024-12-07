@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
+import { toast } from 'react-toastify';
 import { auth, db } from './firebase/firebase';
 import LoadRecordings from './LoadRecordings';
-import { toast } from "react-toastify";
 import { getDoc, doc, addDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { 
@@ -41,12 +41,10 @@ export default function Call({ sendData }) {
   // Fetch user details from Firestore
   const fetchUserData = async () => {
         auth.onAuthStateChanged(async (user) => {
-            console.log(user);
             const docRef = doc(db, "Users", user.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 setUserDetails(docSnap.data());
-                console.log(docSnap.data());
             } else {
                 console.log("User is not logged in");
             }
@@ -77,8 +75,8 @@ export default function Call({ sendData }) {
         const querySnapshot = await getDocs(q);
     
         // Check if the call already exists.
-        if (querySnapshot.empty) {
-          alert("The call does not exist or is no longer active. Please try again.");
+        if (querySnapshot.empty || callName === "") {
+          toast.error("The call does not exist or is no longer active. Please try again.")
           setCallName(""); // Clear the input field.
           return;
         }
@@ -98,6 +96,12 @@ export default function Call({ sendData }) {
   const handleCreateCall = async (e) => {
     e.preventDefault();
     try {
+
+      if (callName === "") {
+        toast.error("Invalid call name. Please try again.");
+        setCallName(""); // Clear the input field.
+        return;
+      }
       setJoinCreate("Create");
   
 
@@ -159,7 +163,7 @@ export default function Call({ sendData }) {
             placeholder="Enter call name"
             value={callName}
             onChange={(e) =>{ 
-              setCallName(e.target.value)
+              setCallName(e.target.value.replace(/\s+/g, "_"))
               const uniqueId = generateUniqueId(e.target.value);
               setCallId(uniqueId);
             }}
@@ -184,8 +188,6 @@ export default function Call({ sendData }) {
   else if (user.name != ' '){
     const client = new StreamVideoClient({ apiKey, user, token });
     const call = client.call('default', callId);
-    console.log(call);
-    console.log(call.state.callingState);
 
     if (joinCreate == 'Join'){
       call.get();
@@ -218,10 +220,6 @@ export const MyUILayout = (props) => {
     const {room} = props;
     const {call} = props;
     const {currentUser} = props;
-    const { useIsCallRecordingInProgress } = useCallStateHooks();
-    const isCallRecordingInProgress = useIsCallRecordingInProgress();
-
-
 
     const handleCopyToClipboard = () => {
       if (room) {
@@ -242,7 +240,7 @@ export const MyUILayout = (props) => {
     // End the call and handle cleanup.
     // If the user is admin then the call is terminated for all.
     // If the user is not the admin, then he/she leaves.
-    async function handleEnd() {
+    const handleEnd = async () => {
       try {
         const messagesRef = collection(db, "messages");
         const q = query(messagesRef, where("room", "==", room));
@@ -285,6 +283,8 @@ export const MyUILayout = (props) => {
       }
     }
 
+
+
     useEffect(() => {
       const activeCallsRef = collection(db, "activeCalls");
       const q = query(activeCallsRef, where("callId", "==", room));
@@ -301,36 +301,6 @@ export const MyUILayout = (props) => {
       return () => unsubscribe();
     }, [room]);
     
-
-    const toggleRecording = async () => {
-      try {
-        if (isCallRecordingInProgress) {
-          await call.stopRecording();
-          console.log("Recording stopped.");
-        } else {
-          await call.startRecording();
-          console.log("Recording started.");
-        }
-      } catch (error) {
-        console.error("Error toggling recording:", error);
-      }
-    };
-
-    const handleRecordingClick = async () => {
-      try {
-        const isRecording = call.state.isRecording;
-  
-        if (isRecording) {
-          await call.stopRecording();
-          console.log("Recording stopped.");
-        } else {
-          await call.startRecording();
-          console.log("Recording started.");
-        }
-      } catch (error) {
-        console.error("Error toggling recording:", error);
-      }
-    };
   
 
     return (

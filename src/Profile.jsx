@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"; // React and hooks for state management and effects.
 import { auth, db } from './firebase/firebase'; // Firebase authentication and Firestore database.
 import { getDoc, doc, updateDoc } from 'firebase/firestore'; // Firestore functions for managing documents.
-import { Link } from "react-router-dom"; // Navigation utilities from React Router.
+import { Link, useNavigate } from "react-router-dom"; // Navigation utilities from React Router.
 import './Profile.css'; // Styles specific to the Profile component.
 
 
@@ -11,6 +11,7 @@ function Profile() {
   // States to store user details and token
   const [userDetails, setUserDetails] = useState(null);
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   // Function to fetch user data from Firestore
   const fetchUserData = async () => {
@@ -19,7 +20,6 @@ function Profile() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setUserDetails(docSnap.data());
-        console.log(docSnap.data());
       } else {
         console.log("User is not logged in");
       }
@@ -40,6 +40,14 @@ function Profile() {
       console.error("Error logging out:", error.message);
     }
   }
+
+  const goToMainPage = () => {
+    navigate("/main-page");
+  };
+
+  const goToRecordings = () => {
+    navigate("/recordings");
+  };
   return (
     <>
         <div className='sign-in-container'>
@@ -138,11 +146,11 @@ function Profile() {
                             <button className="btn sign-out-btn" onClick={handleLogout}>
                                 Logout
                             </button>
-                            <button className="btn main-menu-btn">
-                                <Link to="/main-page">Main Menu</Link>
+                            <button className="btn main-menu-btn" onClick={goToMainPage}>
+                              Main Menu
                             </button>
-                            <button className="btn main-menu-btn">
-                                <Link to="/recordings">Recordings</Link>
+                            <button className="btn main-menu-btn" onClick={goToRecordings}>
+                              Recordings
                             </button>
                         </div>
                         </>

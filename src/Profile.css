@@ -71,7 +71,8 @@
 }
 
 /* Link styles within the main menu button */
-.main-menu-btn > *{
+.main-menu-btn > *,
+.sign-out-btn > *{
     color: #080710;
     text-decoration: none;
     &:hover,
