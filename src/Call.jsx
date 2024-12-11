@@ -70,13 +70,13 @@ export default function Call({ sendData }) {
       e.preventDefault();
       try {
         
-        setCallId(callName);
+        setCallId(toGreeklish(callName));
         const activeCallsRef = collection(db, "activeCalls");
-        const q = query(activeCallsRef, where("callId", "==", callName), where("isActive", "==", true));
+        const q = query(activeCallsRef, where("callId", "==", toGreeklish(callName)), where("isActive", "==", true));
         const querySnapshot = await getDocs(q);
     
         // Check if the call already exists.
-        if (querySnapshot.empty || callName === "") {
+        if (querySnapshot.empty || toGreeklish(callName) === "") {
           toast.error("The call does not exist or is no longer active. Please try again.")
           setCallName(""); // Clear the input field.
           return;
@@ -84,7 +84,7 @@ export default function Call({ sendData }) {
     
         
         setJoinCreate("Join");
-        sendData(callName);
+        sendData(toGreeklish(callName));
         setStartCall(true);
       } catch (error) {
         console.error("Error joining the call:", error.message);
@@ -104,10 +104,11 @@ export default function Call({ sendData }) {
         return;
       }
       setJoinCreate("Create");
-  
+      const greeklishId = toGreeklish(callId);
+      const greeklishName = toGreeklish(callName);
 
       const activeCallsRef = collection(db, "activeCalls");
-      const q = query(activeCallsRef, where("callId", "==", callId));
+      const q = query(activeCallsRef, where("callId", "==", toGreeklish(callId)));
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         
@@ -116,10 +117,11 @@ export default function Call({ sendData }) {
         });
         console.log("Room reactivated.");
       } else {
-       
+        
+        
         await addDoc(activeCallsRef, {
-          callId,
-          callName,
+          greeklishId,
+          greeklishName,
           isActive: true,
           createdAt: new Date(),
           admin: userDetails.name,
@@ -127,7 +129,7 @@ export default function Call({ sendData }) {
         console.log("Room created.");
       }
   
-      sendData(callId);
+      sendData(greeklishId);
       setStartCall(true);
     } catch (error) {
       console.error("Error creating the call:", error.message);
@@ -164,7 +166,7 @@ export default function Call({ sendData }) {
             placeholder="Enter call name"
             value={callName}
             onChange={(e) =>{ 
-              setCallName(toGreeklish(e.target.value).replace(/\s+/g, "_"))
+              setCallName(e.target.value.replace(/\s+/g, "_"));
               const uniqueId = generateUniqueId(e.target.value);
               setCallId(uniqueId);
             }}
@@ -188,7 +190,7 @@ export default function Call({ sendData }) {
 
   else if (user.name != ' '){
     const client = new StreamVideoClient({ apiKey, user, token });
-    const call = client.call('default', callId);
+    const call = client.call('default', toGreeklish(callId));
 
     if (joinCreate == 'Join'){
       call.get();
@@ -204,7 +206,7 @@ export default function Call({ sendData }) {
       <>
       <StreamVideo client={client}>
         <StreamCall call={call}>
-          <MyUILayout room={callId} call={call} currentUser={userDetails.name}/>
+          <MyUILayout room={toGreeklish(callId)} call={call} currentUser={userDetails.name}/>
         </StreamCall>
       </StreamVideo>
       </>
