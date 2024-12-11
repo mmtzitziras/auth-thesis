@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import Navbar from './Navbar'
 import './LandingPage.css'
-import Call from './Call'
 
 export default function LandingPage() {
 

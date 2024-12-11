@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'; // React and hooks for state management.
+import { toGreeklish } from 'greek-utils';
 import { Link } from "react-router-dom"; // React Router for navigation.
 import { 
   signInWithEmailAndPassword, 
@@ -53,7 +54,7 @@ export default function SignIn(){
                 // If user doesn't exist, create a new document
                 await setDoc(userRef, {
                   email: user.email,
-                  name: user.displayName.replace(/\s+/g, "_"), // Replace spaces with underscores
+                  name: toGreeklish(user.displayName).replace(/\s+/g, "_"), // Replace spaces with underscores
                   token: "",
                   photo: 'https://getstream.io/random_svg/?id=oliver&name=' 
                   + user.displayName.replace(/\s+/g, "_"),
@@ -89,7 +90,7 @@ export default function SignIn(){
                   // If user doesn't exist, create a new document
                   await setDoc(userRef, {
                     email: user.email,
-                    name: user.displayName.replace(/\s+/g, "_"), // Replace spaces with underscores
+                    name: toGreeklish(user.displayName).replace(/\s+/g, "_"), // Replace spaces with underscores
                     token: "",
                     photo: user.photoURL,
                   });

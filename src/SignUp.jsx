@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth'; // Firebase methods for user authentication.
 import { auth, db } from './firebase/firebase'; // Firebase authentication and Firestore database.
 import { getDoc, setDoc, doc } from 'firebase/firestore'; // Firestore functions to interact with user data.
+import { toGreeklish } from 'greek-utils';
 
 
 
@@ -32,7 +33,7 @@ export default function SignUp(){
         if (user){
           await setDoc(doc(db, "Users", user.uid),{
               email: user.email,
-              name: name.replace(/\s+/g, "_"),
+              name: toGreeklish(name).replace(/\s+/g, "_"),
               token: "",
               photo: 'https://getstream.io/random_svg/?id=oliver&name=' + name,
           });
@@ -65,7 +66,7 @@ export default function SignUp(){
               // If user doesn't exist, create a new document
               await setDoc(userRef, {
                 email: user.email,
-                name: user.displayName.replace(/\s+/g, "_"), // Replace spaces with underscores
+                name: toGreeklish(user.displayName).replace(/\s+/g, "_"), // Replace spaces with underscores
                 token: "",
                 photo: 'https://getstream.io/random_svg/?id=oliver&name=' 
                 + user.displayName.replace(/\s+/g, "_"),
@@ -101,7 +102,7 @@ export default function SignUp(){
                 // If user doesn't exist, create a new document
                 await setDoc(userRef, {
                   email: user.email,
-                  name: user.displayName.replace(/\s+/g, "_"), // Replace spaces with underscores
+                  name: toGreeklish(user.displayName).replace(/\s+/g, "_"), // Replace spaces with underscores
                   token: "",
                   photo: user.photoURL,
                 });
