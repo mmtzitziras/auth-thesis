@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import { toast } from 'react-toastify';
 import { auth, db } from './firebase/firebase';
+import { toGreeklish } from 'greek-utils';
 import LoadRecordings from './LoadRecordings';
 import { getDoc, doc, addDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
@@ -163,7 +164,7 @@ export default function Call({ sendData }) {
             placeholder="Enter call name"
             value={callName}
             onChange={(e) =>{ 
-              setCallName(e.target.value.replace(/\s+/g, "_"))
+              setCallName(toGreeklish(e.target.value).replace(/\s+/g, "_"))
               const uniqueId = generateUniqueId(e.target.value);
               setCallId(uniqueId);
             }}
