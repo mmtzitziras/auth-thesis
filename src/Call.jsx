@@ -120,8 +120,8 @@ export default function Call({ sendData }) {
         
         
         await addDoc(activeCallsRef, {
-          greeklishId,
-          greeklishName,
+          callId: greeklishId,
+          callName: greeklishName,
           isActive: true,
           createdAt: new Date(),
           admin: userDetails.name,
