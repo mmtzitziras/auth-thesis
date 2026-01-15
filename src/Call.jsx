@@ -29,6 +29,8 @@ import {
 
 import '@stream-io/video-react-sdk/dist/css/styles.css'; // Styles for the video SDK.
 import './Call.css' // Styles specific to the Call component.
+const apiKey = import.meta.env.VITE_GETSTREAM_API_KEY;
+
 
 
 export default function Call({ sendData }) {
@@ -138,7 +140,6 @@ export default function Call({ sendData }) {
 };
 
   // Stream Video client configuration
-  const apiKey = 'gznn9kyeap2y';
  
   const user = {
     id: userDetails ? userDetails.name : ' ',
