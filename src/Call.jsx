@@ -139,7 +139,6 @@ export default function Call({ sendData }) {
 
   // Stream Video client configuration
   const apiKey = 'gznn9kyeap2y';
-  const apiSecret = 'v67xefarvsw8dwh2w6gmxnrtwdzmfrgpqjpk6chhw4hznmabff8aynfuacqdsun2';
  
   const user = {
     id: userDetails ? userDetails.name : ' ',

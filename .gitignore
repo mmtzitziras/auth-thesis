@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 commitTemplate
+
+firebase.js
+
+.env
+
+src\firebase\firebase.js
